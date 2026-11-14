@@ -1,0 +1,16 @@
+{
+  "testDebugUnitTest": {
+    "suites": 57,
+    "tests": 225,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testWidgetRendering": {
+    "suites": 1,
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

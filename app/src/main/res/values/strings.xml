@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_compact_name">天地历 · 日期天气 2×2</string>
+    <string name="widget_wide_name">天地历 · 今日概览 4×2</string>
+    <string name="widget_compact_description">今日公历、农历与当前城市天气</string>
+    <string name="widget_wide_description">日期、天气、宜忌；可在设置中开启下一条日程</string>
+    <string name="app_name">天地历</string>
+</resources>

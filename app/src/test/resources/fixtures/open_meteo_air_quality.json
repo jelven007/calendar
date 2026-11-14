@@ -1,0 +1,17 @@
+{
+  "latitude": 30.25,
+  "longitude": 120.125,
+  "generationtime_ms": 0.08,
+  "utc_offset_seconds": 28800,
+  "timezone": "Asia/Shanghai",
+  "timezone_abbreviation": "GMT+8",
+  "current": {
+    "time": 1735794000,
+    "interval": 3600,
+    "us_aqi": 42,
+    "pm2_5": 12.3,
+    "pm10": 20.4,
+    "ozone": 55.1,
+    "nitrogen_dioxide": 18.2
+  }
+}

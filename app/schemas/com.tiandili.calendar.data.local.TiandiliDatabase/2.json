@@ -1,0 +1,496 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "dbd2dbc6bd72ddd74a36b60288e066e1",
+    "entities": [
+      {
+        "tableName": "schedules",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `note` TEXT NOT NULL, `all_day` INTEGER NOT NULL, `start_date_epoch_day` INTEGER NOT NULL, `end_date_epoch_day` INTEGER NOT NULL, `start_minute_of_day` INTEGER, `end_minute_of_day` INTEGER, `zone_id` TEXT, `created_at_epoch_millis` INTEGER NOT NULL, `updated_at_epoch_millis` INTEGER NOT NULL, `deleted_at_epoch_millis` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "allDay",
+            "columnName": "all_day",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDateEpochDay",
+            "columnName": "start_date_epoch_day",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endDateEpochDay",
+            "columnName": "end_date_epoch_day",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startMinuteOfDay",
+            "columnName": "start_minute_of_day",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "endMinuteOfDay",
+            "columnName": "end_minute_of_day",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "zoneId",
+            "columnName": "zone_id",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAtEpochMillis",
+            "columnName": "created_at_epoch_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAtEpochMillis",
+            "columnName": "updated_at_epoch_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deletedAtEpochMillis",
+            "columnName": "deleted_at_epoch_millis",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_schedules_start_date_epoch_day_end_date_epoch_day",
+            "unique": false,
+            "columnNames": [
+              "start_date_epoch_day",
+              "end_date_epoch_day"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_schedules_start_date_epoch_day_end_date_epoch_day` ON `${TABLE_NAME}` (`start_date_epoch_day`, `end_date_epoch_day`)"
+          },
+          {
+            "name": "index_schedules_deleted_at_epoch_millis",
+            "unique": false,
+            "columnNames": [
+              "deleted_at_epoch_millis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_schedules_deleted_at_epoch_millis` ON `${TABLE_NAME}` (`deleted_at_epoch_millis`)"
+          }
+        ]
+      },
+      {
+        "tableName": "recurrence_rules",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`schedule_id` INTEGER NOT NULL, `frequency` TEXT NOT NULL, `interval` INTEGER NOT NULL, `weekdays_mask` INTEGER NOT NULL, `until_epoch_day` INTEGER, `count` INTEGER, PRIMARY KEY(`schedule_id`), FOREIGN KEY(`schedule_id`) REFERENCES `schedules`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "scheduleId",
+            "columnName": "schedule_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "frequency",
+            "columnName": "frequency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interval",
+            "columnName": "interval",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weekdaysMask",
+            "columnName": "weekdays_mask",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "untilEpochDay",
+            "columnName": "until_epoch_day",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "schedule_id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "schedules",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "schedule_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "schedule_exceptions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `schedule_id` INTEGER NOT NULL, `occurrence_date_epoch_day` INTEGER NOT NULL, `cancelled` INTEGER NOT NULL, FOREIGN KEY(`schedule_id`) REFERENCES `schedules`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scheduleId",
+            "columnName": "schedule_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "occurrenceDateEpochDay",
+            "columnName": "occurrence_date_epoch_day",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cancelled",
+            "columnName": "cancelled",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_schedule_exceptions_schedule_id_occurrence_date_epoch_day",
+            "unique": true,
+            "columnNames": [
+              "schedule_id",
+              "occurrence_date_epoch_day"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_schedule_exceptions_schedule_id_occurrence_date_epoch_day` ON `${TABLE_NAME}` (`schedule_id`, `occurrence_date_epoch_day`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "schedules",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "schedule_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "reminder_outbox",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `schedule_id` INTEGER NOT NULL, `occurrence_epoch_millis` INTEGER NOT NULL, `trigger_at_epoch_millis` INTEGER NOT NULL, `status` TEXT NOT NULL, `attempt_count` INTEGER NOT NULL, `last_error` TEXT, `created_at_epoch_millis` INTEGER NOT NULL, FOREIGN KEY(`schedule_id`) REFERENCES `schedules`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scheduleId",
+            "columnName": "schedule_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "occurrenceEpochMillis",
+            "columnName": "occurrence_epoch_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "triggerAtEpochMillis",
+            "columnName": "trigger_at_epoch_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attemptCount",
+            "columnName": "attempt_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastError",
+            "columnName": "last_error",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAtEpochMillis",
+            "columnName": "created_at_epoch_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_reminder_outbox_schedule_id",
+            "unique": false,
+            "columnNames": [
+              "schedule_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_reminder_outbox_schedule_id` ON `${TABLE_NAME}` (`schedule_id`)"
+          },
+          {
+            "name": "index_reminder_outbox_status_trigger_at_epoch_millis",
+            "unique": false,
+            "columnNames": [
+              "status",
+              "trigger_at_epoch_millis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_reminder_outbox_status_trigger_at_epoch_millis` ON `${TABLE_NAME}` (`status`, `trigger_at_epoch_millis`)"
+          },
+          {
+            "name": "index_reminder_outbox_schedule_id_occurrence_epoch_millis_trigger_at_epoch_millis",
+            "unique": true,
+            "columnNames": [
+              "schedule_id",
+              "occurrence_epoch_millis",
+              "trigger_at_epoch_millis"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_reminder_outbox_schedule_id_occurrence_epoch_millis_trigger_at_epoch_millis` ON `${TABLE_NAME}` (`schedule_id`, `occurrence_epoch_millis`, `trigger_at_epoch_millis`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "schedules",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "schedule_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "weather_cities",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `admin1` TEXT, `country` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `zone_id` TEXT NOT NULL, `is_selected` INTEGER NOT NULL, `last_used_at_epoch_millis` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "admin1",
+            "columnName": "admin1",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "country",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zoneId",
+            "columnName": "zone_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSelected",
+            "columnName": "is_selected",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUsedAtEpochMillis",
+            "columnName": "last_used_at_epoch_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_weather_cities_is_selected",
+            "unique": false,
+            "columnNames": [
+              "is_selected"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_weather_cities_is_selected` ON `${TABLE_NAME}` (`is_selected`)"
+          },
+          {
+            "name": "index_weather_cities_last_used_at_epoch_millis",
+            "unique": false,
+            "columnNames": [
+              "last_used_at_epoch_millis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_weather_cities_last_used_at_epoch_millis` ON `${TABLE_NAME}` (`last_used_at_epoch_millis`)"
+          }
+        ]
+      },
+      {
+        "tableName": "weather_cache_segments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`city_id` TEXT NOT NULL, `segment_type` TEXT NOT NULL, `payload_json` TEXT NOT NULL, `fetched_at_epoch_millis` INTEGER NOT NULL, `expires_at_epoch_millis` INTEGER NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`city_id`, `segment_type`), FOREIGN KEY(`city_id`) REFERENCES `weather_cities`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "cityId",
+            "columnName": "city_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "segmentType",
+            "columnName": "segment_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "payloadJson",
+            "columnName": "payload_json",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fetchedAtEpochMillis",
+            "columnName": "fetched_at_epoch_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expiresAtEpochMillis",
+            "columnName": "expires_at_epoch_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "city_id",
+            "segment_type"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_weather_cache_segments_expires_at_epoch_millis",
+            "unique": false,
+            "columnNames": [
+              "expires_at_epoch_millis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_weather_cache_segments_expires_at_epoch_millis` ON `${TABLE_NAME}` (`expires_at_epoch_millis`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "weather_cities",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "city_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dbd2dbc6bd72ddd74a36b60288e066e1')"
+    ]
+  }
+}

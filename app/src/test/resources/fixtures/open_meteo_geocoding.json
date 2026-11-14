@@ -1,0 +1,23 @@
+{
+  "results": [
+    {
+      "id": 1808926,
+      "name": "杭州市",
+      "latitude": 30.29365,
+      "longitude": 120.16142,
+      "timezone": "Asia/Shanghai",
+      "country": "中国",
+      "admin1": "浙江"
+    },
+    {
+      "id": 2037013,
+      "name": "杭州",
+      "latitude": 42.74045,
+      "longitude": 129.10241,
+      "timezone": "Asia/Shanghai",
+      "country": "中国",
+      "admin1": "吉林"
+    }
+  ],
+  "generationtime_ms": 0.31
+}

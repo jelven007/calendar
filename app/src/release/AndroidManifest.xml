@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <!-- This removes Calendar's runtime-only tooling declaration. It is not
+             a class reference; that dependency is absent from Lint's compile path. -->
+        <activity android:name="androidx.compose.ui.tooling.PreviewActivity"
+            tools:node="remove" tools:ignore="MissingClass" />
+    </application>
+</manifest>
