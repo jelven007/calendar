@@ -1,0 +1,14 @@
+{
+  "tests": 2,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "testNames": [
+    "cold launch and all main destinations work on supported platform versions[26]",
+    "cold launch and all main destinations work on supported platform versions"
+  ],
+  "androidApiLevels": [
+    26,
+    35
+  ]
+}
