@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.TiandiliApplicationReminderTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:05.096Z" hostname="J6P0GGV20P" time="2.43">
+  <properties/>
+  <testcase name="application exposes the reminder runtime and coordinating repository" classname="com.tiandili.calendar.TiandiliApplicationReminderTest" time="2.365"/>
+  <testcase name="manifest declares reminder permissions and receivers" classname="com.tiandili.calendar.TiandiliApplicationReminderTest" time="0.065"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

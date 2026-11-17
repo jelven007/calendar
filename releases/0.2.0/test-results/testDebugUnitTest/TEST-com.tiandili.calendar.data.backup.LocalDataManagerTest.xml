@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.backup.LocalDataManagerTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:12.435Z" hostname="J6P0GGV20P" time="3.496">
+  <properties/>
+  <testcase name="database failure rolls back replacement and creates no pending preferences" classname="com.tiandili.calendar.data.backup.LocalDataManagerTest" time="3.243"/>
+  <testcase name="pending preferences from an interrupted import are replayed on recovery" classname="com.tiandili.calendar.data.backup.LocalDataManagerTest" time="0.063"/>
+  <testcase name="export preserves completed reminder offsets and cancellation exceptions" classname="com.tiandili.calendar.data.backup.LocalDataManagerTest" time="0.042"/>
+  <testcase name="clear all resets preferences and cities while retaining uncancelled reminder records" classname="com.tiandili.calendar.data.backup.LocalDataManagerTest" time="0.039"/>
+  <testcase name="merging the same backup twice skips identical schedules and exceptions" classname="com.tiandili.calendar.data.backup.LocalDataManagerTest" time="0.027"/>
+  <testcase name="replace hides old schedules and keeps cancellation tombstones until acknowledged" classname="com.tiandili.calendar.data.backup.LocalDataManagerTest" time="0.027"/>
+  <testcase name="clear keeps a fired job until its visible notification can be cancelled" classname="com.tiandili.calendar.data.backup.LocalDataManagerTest" time="0.025"/>
+  <testcase name="merge allocates local ids preserves existing preferences and remaps exceptions" classname="com.tiandili.calendar.data.backup.LocalDataManagerTest" time="0.029"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -95,9 +95,9 @@ class TiandiliWeatherNavigationTest {
         }
 
         composeRule.onNodeWithTag("calendar_content").performScrollToNode(
-            hasText("多云 3–10℃"),
+            hasText("多云 3–10℃", substring = true),
         )
-        composeRule.onNodeWithText("多云 3–10℃").assertIsDisplayed()
+        composeRule.onNodeWithText("多云 3–10℃", substring = true).assertIsDisplayed()
     }
 
     private fun calendarViewModel() = CalendarViewModel(

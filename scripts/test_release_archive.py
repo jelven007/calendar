@@ -88,9 +88,14 @@ class ReleaseArchiveTest(unittest.TestCase):
             "com.tiandili.calendar.domain.widget.WidgetSnapshotJsonAdapter",
             "com.tiandili.calendar.domain.widget.WidgetWeatherSummaryJsonAdapter",
             "com.tiandili.calendar.domain.widget.WidgetScheduleSummaryJsonAdapter",
+            "com.tiandili.calendar.domain.schedule.ChecklistItemJsonAdapter",
+            "com.tiandili.calendar.feature.settings.ReleaseMetadataJsonAdapter",
+            "com.tiandili.calendar.platform.alarm.AlarmSoundService",
+            "com.tiandili.calendar.platform.alarm.AlarmRingingActivity",
         ]
         for name in names:
-            self.assertIn("L" + name.replace(".", "/") + ";", self.classes)
+            self.assertTrue("L" + name.replace(".", "/") + ";" in self.classes,
+                            f"Missing runtime contract: {name}")
 
     def test_apk_contains_the_current_complete_notice_file(self):
         with zipfile.ZipFile(APK) as archive:
@@ -101,6 +106,43 @@ class ReleaseArchiveTest(unittest.TestCase):
     def test_release_does_not_ship_the_compose_development_preview_activity(self):
         self.assertFalse("Landroidx/compose/ui/tooling/PreviewActivity;" in self.classes,
                          "Release APK still contains the development preview activity")
+
+    def test_universal_apk_supports_four_abis_and_android_8_dex(self):
+        with zipfile.ZipFile(APK) as archive:
+            abis = {name.split("/")[1] for name in archive.namelist() if name.startswith("lib/")}
+            self.assertEqual(abis, {"arm64-v8a", "armeabi-v7a", "x86", "x86_64"})
+            dex_files = [name for name in archive.namelist()
+                         if name.startswith("classes") and name.endswith(".dex")]
+            self.assertTrue(dex_files)
+            for name in dex_files:
+                self.assertEqual(archive.read(name)[:8], b"dex\n038\x00",
+                                 "Android 8 must be able to load every DEX")
+
+    def test_every_native_load_segment_is_aligned_for_16kb_pages(self):
+        with zipfile.ZipFile(APK) as archive:
+            for name in archive.namelist():
+                if not name.startswith("lib/") or not name.endswith(".so"):
+                    continue
+                data = archive.read(name)
+                self.assertEqual(data[:4], b"\x7fELF")
+                self.assertEqual(data[5], 1, "Expected little-endian ELF")
+                if data[4] == 2:
+                    phoff = struct.unpack_from("<Q", data, 32)[0]
+                    entsize, count = struct.unpack_from("<HH", data, 54)
+                    alignment_offset, alignment_format = 48, "<Q"
+                else:
+                    phoff = struct.unpack_from("<I", data, 28)[0]
+                    entsize, count = struct.unpack_from("<HH", data, 42)
+                    alignment_offset, alignment_format = 28, "<I"
+                load_segments = 0
+                for index in range(count):
+                    entry = phoff + index * entsize
+                    if struct.unpack_from("<I", data, entry)[0] == 1:
+                        alignment = struct.unpack_from(alignment_format, data, entry + alignment_offset)[0]
+                        self.assertGreaterEqual(alignment, 16384, name)
+                        self.assertEqual(alignment % 16384, 0, name)
+                        load_segments += 1
+                self.assertGreater(load_segments, 0, name)
 
 
 if __name__ == "__main__":

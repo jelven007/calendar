@@ -41,7 +41,7 @@ class CalendarViewModelTest {
 
         assertThat(state.displayedMonth).isEqualTo(YearMonth.of(2025, 1))
         assertThat(state.selectedDate).isEqualTo(LocalDate.of(2025, 1, 29))
-        assertThat(state.cells).hasSize(42)
+        assertThat(state.cells).hasSize(35)
         assertThat(state.cells.single { it.date == LocalDate.of(2025, 1, 29) }.label)
             .isEqualTo("春节")
         assertThat(state.selectedAlmanac.lunarMonthText).isEqualTo("正月")
@@ -117,5 +117,22 @@ class CalendarViewModelTest {
 
         assertThat(viewModel.uiState.value.selectedDate)
             .isEqualTo(LocalDate.of(2025, 1, 29))
+    }
+
+    @Test fun `today reads the clock again after midnight and range edges stay usable`() {
+        val zone = ZoneId.of("Asia/Shanghai")
+        var now = Instant.parse("2026-11-18T15:59:00Z")
+        val clock = object : Clock() {
+            override fun getZone() = zone
+            override fun withZone(zone: ZoneId): Clock = this
+            override fun instant() = now
+        }
+        val vm = CalendarViewModel(clock, zone, DayOfWeek.SUNDAY, LunarJavaAlmanacEngine())
+        now = Instant.parse("2026-11-18T16:01:00Z")
+        vm.returnToToday()
+        assertThat(vm.uiState.value.selectedDate).isEqualTo(LocalDate.of(2026, 11, 19))
+        vm.selectDate(LocalDate.of(1901, 1, 1))
+        vm.previousMonth()
+        assertThat(vm.uiState.value.selectedDate).isEqualTo(LocalDate.of(1901, 1, 1))
     }
 }

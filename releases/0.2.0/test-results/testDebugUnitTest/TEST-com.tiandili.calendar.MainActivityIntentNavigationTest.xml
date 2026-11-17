@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.MainActivityIntentNavigationTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:13:59.245Z" hostname="J6P0GGV20P" time="1.304">
+  <properties/>
+  <testcase name="warm activity opens notification schedule detail" classname="com.tiandili.calendar.MainActivityIntentNavigationTest" time="0.535"/>
+  <testcase name="weather widget action navigates without recreating activity" classname="com.tiandili.calendar.MainActivityIntentNavigationTest" time="0.455"/>
+  <testcase name="missing notification schedule opens list with unavailable message" classname="com.tiandili.calendar.MainActivityIntentNavigationTest" time="0.313"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[System.logW: A resource failed to call close. 
+]]></system-err>
+</testsuite>

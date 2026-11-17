@@ -10,6 +10,21 @@ import org.junit.Test
 class ReminderDispatcherTest {
 
     @Test
+    fun `alarm recovery only rings within five minutes while schedules keep twenty four hours`() = runTest {
+        val alarm = sampleDelivery(NOW_EPOCH_MILLIS - 6 * 60 * 1000L)
+            .copy(kind = com.tiandili.calendar.domain.schedule.ScheduleKind.ALARM)
+        val store = FakeReminderDeliveryStore(alarm)
+        val notifications = FakeReminderNotificationGateway()
+        ReminderDispatcher(store, notifications, fixedClock()).dispatch(alarm.jobId)
+        assertThat(store.skipped).containsExactly(alarm.jobId)
+        assertThat(notifications.posted).isEmpty()
+        val recent = alarm.copy(triggerAtEpochMillis = NOW_EPOCH_MILLIS - 4 * 60 * 1000L)
+        ReminderDispatcher(FakeReminderDeliveryStore(recent), notifications, fixedClock()).dispatch(recent.jobId)
+        assertThat(notifications.posted.single().kind)
+            .isEqualTo(com.tiandili.calendar.domain.schedule.ScheduleKind.ALARM)
+    }
+
+    @Test
     fun `dispatch claims a scheduled job and marks it fired after notification`() = runTest {
         val delivery = sampleDelivery(triggerAtEpochMillis = NOW_EPOCH_MILLIS)
         val store = FakeReminderDeliveryStore(delivery)

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.platform.reminder.AndroidReminderNotificationGatewayTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:21.489Z" hostname="J6P0GGV20P" time="0.142">
+  <properties/>
+  <testcase name="alarm notification starts the ringing foreground service" classname="com.tiandili.calendar.platform.reminder.AndroidReminderNotificationGatewayTest" time="0.021"/>
+  <testcase name="missed reminder uses recovery wording" classname="com.tiandili.calendar.platform.reminder.AndroidReminderNotificationGatewayTest" time="0.066"/>
+  <testcase name="post returns blocked without notification permission" classname="com.tiandili.calendar.platform.reminder.AndroidReminderNotificationGatewayTest" time="0.012"/>
+  <testcase name="post creates the reminder channel and a deterministic notification" classname="com.tiandili.calendar.platform.reminder.AndroidReminderNotificationGatewayTest" time="0.017"/>
+  <testcase name="default notification hides the title on the lock screen" classname="com.tiandili.calendar.platform.reminder.AndroidReminderNotificationGatewayTest" time="0.012"/>
+  <testcase name="explicit lock screen preference exposes the reminder title" classname="com.tiandili.calendar.platform.reminder.AndroidReminderNotificationGatewayTest" time="0.014"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[System.logW: A resource failed to call close. 
+]]></system-err>
+</testsuite>

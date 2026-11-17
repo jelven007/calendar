@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.weather.WeatherViewModelTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:20.139Z" hostname="J6P0GGV20P" time="0.01">
+  <properties/>
+  <testcase name="unavailable location keeps manual city search visible" classname="com.tiandili.calendar.feature.weather.WeatherViewModelTest" time="0.007"/>
+  <testcase name="cached snapshot is exposed while automatic refresh runs" classname="com.tiandili.calendar.feature.weather.WeatherViewModelTest" time="0.0"/>
+  <testcase name="current coordinates become a selected local timezone city" classname="com.tiandili.calendar.feature.weather.WeatherViewModelTest" time="0.002"/>
+  <testcase name="refresh failure keeps cached snapshot and shows an offline message" classname="com.tiandili.calendar.feature.weather.WeatherViewModelTest" time="0.0"/>
+  <testcase name="city search reports disambiguated results without selecting one" classname="com.tiandili.calendar.feature.weather.WeatherViewModelTest" time="0.001"/>
+  <testcase name="selecting a city closes the picker after repository selection" classname="com.tiandili.calendar.feature.weather.WeatherViewModelTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

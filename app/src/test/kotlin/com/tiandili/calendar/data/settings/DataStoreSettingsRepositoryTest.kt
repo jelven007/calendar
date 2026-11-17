@@ -25,7 +25,7 @@ class DataStoreSettingsRepositoryTest {
 
         assertThat(repository.current()).isEqualTo(
             UserPreferences(
-                firstDayOfWeek = DayOfWeek.MONDAY,
+                firstDayOfWeek = DayOfWeek.SUNDAY,
                 defaultReminderMinutes = null,
                 themeMode = ThemeMode.SYSTEM,
                 showScheduleTitleOnLockScreen = false,
@@ -45,11 +45,13 @@ class DataStoreSettingsRepositoryTest {
             ),
         )
         val expected = UserPreferences(
-            firstDayOfWeek = DayOfWeek.SUNDAY,
+            firstDayOfWeek = DayOfWeek.MONDAY,
             defaultReminderMinutes = 30,
             themeMode = ThemeMode.DARK,
             showScheduleTitleOnLockScreen = true,
             showNextScheduleInWidget = true,
+            accent = CalendarAccent.BLUE,
+            nickname = "小历",
         )
 
         firstRepository.replace(expected)
@@ -78,7 +80,7 @@ class DataStoreSettingsRepositoryTest {
         val error = runCatching { repository.setFirstDayOfWeek(DayOfWeek.TUESDAY) }.exceptionOrNull()
 
         assertThat(error).isInstanceOf(IllegalArgumentException::class.java)
-        assertThat(repository.current().firstDayOfWeek).isEqualTo(DayOfWeek.MONDAY)
+        assertThat(repository.current().firstDayOfWeek).isEqualTo(DayOfWeek.SUNDAY)
     }
 
     @Test

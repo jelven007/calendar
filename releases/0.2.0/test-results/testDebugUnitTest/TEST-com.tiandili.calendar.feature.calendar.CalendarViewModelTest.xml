@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.calendar.CalendarViewModelTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.822Z" hostname="J6P0GGV20P" time="0.224">
+  <properties/>
+  <testcase name="return to today restores the clock date" classname="com.tiandili.calendar.feature.calendar.CalendarViewModelTest" time="0.043"/>
+  <testcase name="selecting an adjacent-month date moves the displayed month" classname="com.tiandili.calendar.feature.calendar.CalendarViewModelTest" time="0.024"/>
+  <testcase name="moving to a shorter next month clamps the selected day" classname="com.tiandili.calendar.feature.calendar.CalendarViewModelTest" time="0.033"/>
+  <testcase name="moving to the previous month keeps the selected day when available" classname="com.tiandili.calendar.feature.calendar.CalendarViewModelTest" time="0.033"/>
+  <testcase name="week start updates the grid without resetting the selected date" classname="com.tiandili.calendar.feature.calendar.CalendarViewModelTest" time="0.029"/>
+  <testcase name="initial state displays the current month and selects today" classname="com.tiandili.calendar.feature.calendar.CalendarViewModelTest" time="0.015"/>
+  <testcase name="today reads the clock again after midnight and range edges stay usable" classname="com.tiandili.calendar.feature.calendar.CalendarViewModelTest" time="0.047"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

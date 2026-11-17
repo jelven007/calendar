@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.core.net.toUri
 import java.time.LocalDate
 
 @Composable
@@ -28,6 +29,7 @@ fun SettingsFeature(
     onExactAlarms: () -> Unit,
     onOpenAttribution: () -> Unit,
     onOpenLicense: () -> Unit,
+    onBack: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val preferences by viewModel.preferences.collectAsStateWithLifecycle()
@@ -70,5 +72,17 @@ fun SettingsFeature(
         onOpenAttribution = onOpenAttribution,
         onOpenLicense = onOpenLicense,
         openSourceLicenses = licenses,
+        onAccent = viewModel::setAccent,
+        onNickname = viewModel::setNickname,
+        onCheckUpdate = viewModel::checkUpdate,
+        onOpenHelp = {
+            runCatching { context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW,
+                "https://github.com/jelven007/calendar#readme".toUri())) }
+        },
+        onOpenDownload = { url ->
+            runCatching { context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW,
+                url.toUri())) }
+        },
+        onBack = onBack,
     )
 }

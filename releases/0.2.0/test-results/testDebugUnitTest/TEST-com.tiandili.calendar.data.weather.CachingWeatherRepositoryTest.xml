@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.weather.CachingWeatherRepositoryTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.055Z" hostname="J6P0GGV20P" time="0.017">
+  <properties/>
+  <testcase name="concurrent refreshes share one in flight request" classname="com.tiandili.calendar.data.weather.CachingWeatherRepositoryTest" time="0.011"/>
+  <testcase name="forecast failure keeps old cache while air quality succeeds" classname="com.tiandili.calendar.data.weather.CachingWeatherRepositoryTest" time="0.001"/>
+  <testcase name="stale forecast refreshes without replacing fresh air quality" classname="com.tiandili.calendar.data.weather.CachingWeatherRepositoryTest" time="0.002"/>
+  <testcase name="selecting a city persists it before fetching weather" classname="com.tiandili.calendar.data.weather.CachingWeatherRepositoryTest" time="0.001"/>
+  <testcase name="city search delegates without changing the selected city" classname="com.tiandili.calendar.data.weather.CachingWeatherRepositoryTest" time="0.001"/>
+  <testcase name="fresh cache skips automatic network refresh" classname="com.tiandili.calendar.data.weather.CachingWeatherRepositoryTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

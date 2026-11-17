@@ -21,7 +21,7 @@ object CalendarWeatherResolver {
         clock: Clock,
     ): CalendarWeatherResult {
         val cityToday = LocalDate.now(clock.withZone(city.zoneId))
-        if (date !in cityToday..cityToday.plusDays(6)) {
+        if (date !in cityToday..cityToday.plusDays(14)) {
             return CalendarWeatherResult.NotAvailable
         }
         val forecast = forecasts.firstOrNull { it.date == date }

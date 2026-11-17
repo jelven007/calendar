@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.widget.WidgetSnapshotStoreTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.603Z" hostname="J6P0GGV20P" time="0.016">
+  <properties/>
+  <testcase name="overwriting private snapshot removes all old title data" classname="com.tiandili.calendar.data.widget.WidgetSnapshotStoreTest" time="0.006"/>
+  <testcase name="missing and damaged cache return null" classname="com.tiandili.calendar.data.widget.WidgetSnapshotStoreTest" time="0.005"/>
+  <testcase name="snapshot survives a new store instance" classname="com.tiandili.calendar.data.widget.WidgetSnapshotStoreTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.settings.DataStoreSettingsRepositoryTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:16.957Z" hostname="J6P0GGV20P" time="0.097">
+  <properties/>
+  <testcase name="all user preferences survive a repository restart" classname="com.tiandili.calendar.data.settings.DataStoreSettingsRepositoryTest" time="0.075"/>
+  <testcase name="reset emits defaults after saved preferences" classname="com.tiandili.calendar.data.settings.DataStoreSettingsRepositoryTest" time="0.007"/>
+  <testcase name="negative default reminder is rejected without changing settings" classname="com.tiandili.calendar.data.settings.DataStoreSettingsRepositoryTest" time="0.007"/>
+  <testcase name="new settings store exposes privacy preserving defaults" classname="com.tiandili.calendar.data.settings.DataStoreSettingsRepositoryTest" time="0.003"/>
+  <testcase name="unsupported week start is rejected without changing preferences" classname="com.tiandili.calendar.data.settings.DataStoreSettingsRepositoryTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

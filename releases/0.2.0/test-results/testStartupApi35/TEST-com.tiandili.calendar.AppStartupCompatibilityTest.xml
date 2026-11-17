@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.AppStartupCompatibilityTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:56.917Z" hostname="J6P0GGV20P" time="11.539">
+  <properties/>
+  <testcase name="application opens database and category editor on supported APIs" classname="com.tiandili.calendar.AppStartupCompatibilityTest" time="11.539"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Robolectric] WARN: Android SDK 36 requires Java 21 (have Java 17). Tests won't be run on SDK 36 unless explicitly requested.
+[Robolectric] WARN: Android SDK 37 requires Java 21 (have Java 17). Tests won't be run on SDK 37 unless explicitly requested.
+]]></system-err>
+</testsuite>

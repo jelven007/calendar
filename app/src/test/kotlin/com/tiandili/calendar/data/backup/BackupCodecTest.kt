@@ -20,21 +20,21 @@ class BackupCodecTest {
     private val codec = BackupCodec(Moshi.Builder().build())
 
     @Test
-    fun `version one round trip preserves schedules rules exceptions cities and settings`() {
+    fun `version two round trip preserves schedules rules exceptions cities and settings`() {
         val expected = sampleBackup()
 
         val json = codec.encode(expected)
         val actual = codec.decode(json)
 
         assertThat(actual).isEqualTo(expected)
-        assertThat(json).contains("\"formatVersion\": 1")
+        assertThat(json).contains("\"formatVersion\": 2")
         assertThat(json).contains("com.tiandili.calendar")
         assertThat(json).doesNotContain("reminder_outbox")
     }
 
     @Test
     fun `future version is rejected before importing anything`() {
-        val json = codec.encode(sampleBackup()).replace("\"formatVersion\": 1", "\"formatVersion\": 2")
+        val json = codec.encode(sampleBackup()).replace("\"formatVersion\": 2", "\"formatVersion\": 3")
 
         assertInvalid(json)
     }
@@ -97,12 +97,50 @@ class BackupCodecTest {
     @Test
     fun `trailing JSON and unknown fields are rejected`() {
         assertInvalid(codec.encode(sampleBackup()) + "{}")
-        assertInvalid(codec.encode(sampleBackup()).replace("\"formatVersion\": 1", "\"unexpected\": true, \"formatVersion\": 1"))
+        assertInvalid(codec.encode(sampleBackup()).replace("\"formatVersion\": 2", "\"unexpected\": true, \"formatVersion\": 2"))
     }
 
     private fun assertInvalid(json: String) {
         assertThat(runCatching { codec.decode(json) }.exceptionOrNull())
             .isInstanceOf(BackupFormatException::class.java)
+    }
+
+    @Test
+    fun `new user week begins on Sunday`() {
+        assertThat(UserPreferences().firstDayOfWeek).isEqualTo(DayOfWeek.SUNDAY)
+    }
+
+    @Test
+    fun `actual format one text imports with compatible metadata defaults`() {
+        val legacy = """{"appId":"com.tiandili.calendar","formatVersion":1,
+            "exportedAt":"2026-11-08T01:00:00Z","schedules":[
+              {"id":41,"title":"旧日程","note":"","allDay":true,
+              "start":"2026-11-08","end":"2026-11-09","zoneId":null,
+              "recurrence":null,"reminderMinutesBefore":15}],
+            "exceptions":[],"preferences":{"firstDayOfWeek":"MONDAY",
+            "defaultReminderMinutes":null,"themeMode":"SYSTEM",
+            "showScheduleTitleOnLockScreen":false,"showNextScheduleInWidget":false},
+            "cities":[],"selectedCityId":null}"""
+        val imported = codec.decode(legacy)
+        assertThat(imported.schedules.single().kind)
+            .isEqualTo(com.tiandili.calendar.domain.schedule.ScheduleKind.SCHEDULE)
+        assertThat(imported.schedules.single().checklist).isEmpty()
+        assertThat(imported.preferences.firstDayOfWeek).isEqualTo(DayOfWeek.MONDAY)
+    }
+
+    @Test
+    fun `new metadata and lunar birthday survive backup along with local profile`() {
+        val original = sampleBackup().copy(
+            schedules = listOf(sampleBackup().schedules.last().copy(
+                kind = com.tiandili.calendar.domain.schedule.ScheduleKind.BIRTHDAY,
+                enabled = false,
+                checklist = listOf(com.tiandili.calendar.domain.schedule.ChecklistItem("祝福", true)),
+                mediaUris = listOf("content://media/images/1"),
+                recurrence = RecurrenceRule(RecurrenceFrequency.YEARLY, lunarMonth = 10, lunarDay = 1),
+            )), exceptions = emptyList(),
+            preferences = UserPreferences(accent = com.tiandili.calendar.data.settings.CalendarAccent.JADE,
+                nickname = "小历"))
+        assertThat(codec.decode(codec.encode(original))).isEqualTo(original)
     }
 }
 

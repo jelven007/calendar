@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.almanac.LunarJavaAlmanacEngineTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:11.403Z" hostname="J6P0GGV20P" time="0.126">
+  <properties/>
+  <testcase name="maps every day in a leap-year February in date order" classname="com.tiandili.calendar.data.almanac.LunarJavaAlmanacEngineTest" time="0.086"/>
+  <testcase name="prioritizes a solar term in the month cell label" classname="com.tiandili.calendar.data.almanac.LunarJavaAlmanacEngineTest" time="0.032"/>
+  <testcase name="november includes reference civil festivals and month ganzhi" classname="com.tiandili.calendar.data.almanac.LunarJavaAlmanacEngineTest" time="0.003"/>
+  <testcase name="maps Qingming detail fields without leaking provider types" classname="com.tiandili.calendar.data.almanac.LunarJavaAlmanacEngineTest" time="0.001"/>
+  <testcase name="maps 2025 spring festival to the first day of the first lunar month" classname="com.tiandili.calendar.data.almanac.LunarJavaAlmanacEngineTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

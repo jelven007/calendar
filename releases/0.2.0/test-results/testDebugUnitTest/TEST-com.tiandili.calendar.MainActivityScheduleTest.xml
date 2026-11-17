@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.MainActivityScheduleTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:13:44.775Z" hostname="J6P0GGV20P" time="14.458">
+  <properties/>
+  <testcase name="editor uses the full screen and restores tabs on close" classname="com.tiandili.calendar.MainActivityScheduleTest" time="13.987"/>
+  <testcase name="activity wires the real schedule feature" classname="com.tiandili.calendar.MainActivityScheduleTest" time="0.471"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Robolectric] WARN: Android SDK 36 requires Java 21 (have Java 17). Tests won't be run on SDK 36 unless explicitly requested.
+[Robolectric] WARN: Android SDK 37 requires Java 21 (have Java 17). Tests won't be run on SDK 37 unless explicitly requested.
+]]></system-err>
+</testsuite>

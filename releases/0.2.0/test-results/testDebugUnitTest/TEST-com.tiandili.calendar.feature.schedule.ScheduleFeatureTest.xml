@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.schedule.ScheduleFeatureTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:19.035Z" hostname="J6P0GGV20P" time="0.493">
+  <properties/>
+  <testcase name="add flow validates title then saves and immediately shows the schedule" classname="com.tiandili.calendar.feature.schedule.ScheduleFeatureTest" time="0.11"/>
+  <testcase name="todo category adds subtasks by keyboard and preserves them after editing" classname="com.tiandili.calendar.feature.schedule.ScheduleFeatureTest" time="0.138"/>
+  <testcase name="delete flow requires confirmation before removing the schedule" classname="com.tiandili.calendar.feature.schedule.ScheduleFeatureTest" time="0.058"/>
+  <testcase name="saving a schedule with a reminder requests notification permission handling" classname="com.tiandili.calendar.feature.schedule.ScheduleFeatureTest" time="0.071"/>
+  <testcase name="edit flow loads the schedule and updates its list row" classname="com.tiandili.calendar.feature.schedule.ScheduleFeatureTest" time="0.069"/>
+  <testcase name="list completion and alarm switches persist all original record fields" classname="com.tiandili.calendar.feature.schedule.ScheduleFeatureTest" time="0.047"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

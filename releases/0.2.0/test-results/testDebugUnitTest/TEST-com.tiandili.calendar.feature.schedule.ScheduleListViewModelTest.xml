@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.schedule.ScheduleListViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:19.605Z" hostname="J6P0GGV20P" time="0.008">
+  <properties/>
+  <testcase name="repository emissions update the schedule list state" classname="com.tiandili.calendar.feature.schedule.ScheduleListViewModelTest" time="0.007"/>
+  <testcase name="delete delegates the schedule id to the repository" classname="com.tiandili.calendar.feature.schedule.ScheduleListViewModelTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

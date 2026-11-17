@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.schedule.ScheduleListScreenTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:19.532Z" hostname="J6P0GGV20P" time="0.071">
+  <properties/>
+  <testcase name="empty state shows add action and dispatches its click" classname="com.tiandili.calendar.feature.schedule.ScheduleListScreenTest" time="0.035"/>
+  <testcase name="schedule row shows timing and dispatches edit and delete actions" classname="com.tiandili.calendar.feature.schedule.ScheduleListScreenTest" time="0.036"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

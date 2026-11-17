@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:19.024Z" hostname="J6P0GGV20P" time="0.008">
+  <properties/>
+  <testcase name="saving a blank title exposes the required title error without persisting" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.005"/>
+  <testcase name="subtask completion derives parent completion and parent toggle updates all subtasks" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.0"/>
+  <testcase name="lunar birthday and four day alarm survive save and reload" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.002"/>
+  <testcase name="configured timed schedule saves selected start and end times" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.0"/>
+  <testcase name="title edit preserves full recurrence zone and record metadata" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.0"/>
+  <testcase name="starting a new schedule clears previously loaded values" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.0"/>
+  <testcase name="new schedules use the current default reminder" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.001"/>
+  <testcase name="loading then saving a schedule preserves its id for editing" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.0"/>
+  <testcase name="valid title saves the default timed schedule and exposes its id" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.0"/>
+  <testcase name="configured all day schedule saves dates recurrence reminder and note" classname="com.tiandili.calendar.feature.schedule.ScheduleEditorViewModelTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

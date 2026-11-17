@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.UiRenderingTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:30.799Z" hostname="J6P0GGV20P" time="7.837">
+  <properties/>
+  <testcase name="forecast can be swiped to and tapped on its last day" classname="com.tiandili.calendar.UiRenderingTest" time="5.817"/>
+  <testcase name="narrow calendar with enlarged font remains readable" classname="com.tiandili.calendar.UiRenderingTest" time="0.284"/>
+  <testcase name="dark mine with enlarged font preserves shortcuts" classname="com.tiandili.calendar.UiRenderingTest" time="0.409"/>
+  <testcase name="settings preview shows grouped pages" classname="com.tiandili.calendar.UiRenderingTest" time="0.238"/>
+  <testcase name="calendar preview includes real month labels" classname="com.tiandili.calendar.UiRenderingTest" time="0.191"/>
+  <testcase name="almanac preview contains computed traditional data" classname="com.tiandili.calendar.UiRenderingTest" time="0.177"/>
+  <testcase name="mine preview renders local record summaries" classname="com.tiandili.calendar.UiRenderingTest" time="0.188"/>
+  <testcase name="weather preview renders current forecast" classname="com.tiandili.calendar.UiRenderingTest" time="0.297"/>
+  <testcase name="todo editor preview keeps save action visible" classname="com.tiandili.calendar.UiRenderingTest" time="0.233"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Robolectric] WARN: Android SDK 36 requires Java 21 (have Java 17). Tests won't be run on SDK 36 unless explicitly requested.
+[Robolectric] WARN: Android SDK 37 requires Java 21 (have Java 17). Tests won't be run on SDK 37 unless explicitly requested.
+]]></system-err>
+</testsuite>

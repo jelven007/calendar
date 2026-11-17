@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import androidx.room.TypeConverter
 import com.tiandili.calendar.domain.schedule.RecurrenceFrequency
+import com.tiandili.calendar.domain.schedule.ScheduleKind
 
 @Entity(
     tableName = "schedules",
@@ -40,6 +41,18 @@ data class ScheduleEntity(
     val updatedAtEpochMillis: Long,
     @ColumnInfo(name = "deleted_at_epoch_millis")
     val deletedAtEpochMillis: Long? = null,
+    @ColumnInfo(defaultValue = "'SCHEDULE'")
+    val kind: ScheduleKind = ScheduleKind.SCHEDULE,
+    @ColumnInfo(defaultValue = "1")
+    val enabled: Boolean = true,
+    @ColumnInfo(defaultValue = "0")
+    val completed: Boolean = false,
+    @ColumnInfo(name = "checklist_json", defaultValue = "'[]'")
+    val checklistJson: String = "[]",
+    @ColumnInfo(name = "media_uris_json", defaultValue = "'[]'")
+    val mediaUrisJson: String = "[]",
+    @ColumnInfo(name = "reminder_minutes_before")
+    val reminderMinutesBefore: Int? = null,
 )
 
 @Entity(
@@ -64,6 +77,10 @@ data class RecurrenceRuleEntity(
     @ColumnInfo(name = "until_epoch_day")
     val untilEpochDay: Long? = null,
     val count: Int? = null,
+    @ColumnInfo(name = "lunar_month")
+    val lunarMonth: Int? = null,
+    @ColumnInfo(name = "lunar_day")
+    val lunarDay: Int? = null,
 )
 
 @Entity(
@@ -153,6 +170,7 @@ data class ReminderDeliveryRow(
     val title: String,
     val occurrenceEpochMillis: Long,
     val triggerAtEpochMillis: Long,
+    val kind: ScheduleKind = ScheduleKind.SCHEDULE,
 )
 
 data class ScheduleDetails(
@@ -171,6 +189,12 @@ data class ScheduleDetails(
 )
 
 class ScheduleConverters {
+
+    @TypeConverter
+    fun scheduleKindToString(value: ScheduleKind): String = value.name
+
+    @TypeConverter
+    fun stringToScheduleKind(value: String): ScheduleKind = ScheduleKind.valueOf(value)
 
     @TypeConverter
     fun recurrenceFrequencyToString(value: RecurrenceFrequency): String = value.name

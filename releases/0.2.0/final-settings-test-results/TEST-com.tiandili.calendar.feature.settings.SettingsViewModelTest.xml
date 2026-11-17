@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.settings.SettingsViewModelTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:18:43.356Z" hostname="J6P0GGV20P" time="3.883">
+  <properties/>
+  <testcase name="export writes a readable JSON file to the selected stream" classname="com.tiandili.calendar.feature.settings.SettingsViewModelTest" time="3.613"/>
+  <testcase name="accent and nickname persist alongside existing settings" classname="com.tiandili.calendar.feature.settings.SettingsViewModelTest" time="0.141"/>
+  <testcase name="reading a backup previews counts without writing schedules" classname="com.tiandili.calendar.feature.settings.SettingsViewModelTest" time="0.083"/>
+  <testcase name="oversized file exposes an error and leaves no preview" classname="com.tiandili.calendar.feature.settings.SettingsViewModelTest" time="0.046"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[System.logW: A resource failed to call close. 
+]]></system-err>
+</testsuite>

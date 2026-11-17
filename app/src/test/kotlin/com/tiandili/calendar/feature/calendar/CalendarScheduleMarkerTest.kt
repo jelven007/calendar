@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.tiandili.calendar.data.almanac.LunarJavaAlmanacEngine
 import com.tiandili.calendar.ui.theme.TiandiliTheme
@@ -50,6 +51,6 @@ class CalendarScheduleMarkerTest {
 
         composeRule.onNode(
             hasContentDescription("有日程", substring = true),
-        ).assertIsDisplayed()
+        ).performScrollTo().assertIsDisplayed()
     }
 }

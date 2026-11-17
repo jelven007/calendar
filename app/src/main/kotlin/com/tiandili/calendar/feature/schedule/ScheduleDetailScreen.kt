@@ -10,6 +10,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.Checkbox
+import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,7 +26,7 @@ fun ScheduleDetailScreen(schedule: Schedule, onBack: () -> Unit, onEdit: () -> U
         verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             TextButton(onClick = onBack) { Text("返回") }
-            Text("日程详情", style = MaterialTheme.typography.titleLarge)
+            Text("${schedule.kind.label}详情", style = MaterialTheme.typography.titleLarge)
             TextButton(onClick = onEdit) { Text("编辑") }
         }
         Text(schedule.title, style = MaterialTheme.typography.headlineMedium)
@@ -37,5 +39,12 @@ fun ScheduleDetailScreen(schedule: Schedule, onBack: () -> Unit, onEdit: () -> U
         schedule.recurrence?.let { Text("重复日程") }
         schedule.reminderMinutesBefore?.let { Text("提前 $it 分钟提醒") }
         if (schedule.note.isNotBlank()) Text(schedule.note)
+        schedule.checklist.forEach { item ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(item.completed, null)
+                Text(item.title)
+            }
+        }
+        if (schedule.mediaUris.isNotEmpty()) RecordImages(schedule.mediaUris, onReselect = { onEdit() })
     }
 }

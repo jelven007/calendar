@@ -10,6 +10,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performSemanticsAction
+import androidx.compose.ui.semantics.SemanticsActions
 import com.google.common.truth.Truth.assertThat
 import com.tiandili.calendar.domain.weather.AirQuality
 import com.tiandili.calendar.domain.weather.CachedWeatherSegment
@@ -78,11 +81,11 @@ class WeatherScreenTest {
         composeRule.onNodeWithContentDescription("当前温度 8°").assertIsDisplayed()
         composeRule.onNodeWithText("多云").assertIsDisplayed()
         composeRule.onNodeWithText("未来 24 小时").assertIsDisplayed()
-        composeRule.onNodeWithTag("weather_content").performScrollToNode(hasText("未来 7 日"))
-        composeRule.onNodeWithText("未来 7 日").assertIsDisplayed()
+        composeRule.onNodeWithTag("weather_content").performScrollToNode(hasText("未来 1 日"))
+        composeRule.onNodeWithText("未来 1 日").assertIsDisplayed()
         composeRule.onNodeWithTag("weather_content").performScrollToNode(hasText("US AQI 42"))
         composeRule.onNodeWithText("US AQI 42").assertIsDisplayed()
-        composeRule.onNodeWithText("良好").assertIsDisplayed()
+        composeRule.onNodeWithText("良好").performScrollTo().assertIsDisplayed()
         composeRule.onNodeWithTag("weather_content").performScrollToNode(
             hasText("Weather data by Open-Meteo.com"),
         )
@@ -143,6 +146,29 @@ class WeatherScreenTest {
         }
 
         composeRule.onNodeWithText("浙江 · 中国").assertIsDisplayed()
+    }
+
+    @Test fun `fifteen day chart exposes final forecast selection and shares attributed weather`() {
+        val original = sampleSnapshot()
+        val days = (0L..14L).map { original.daily!!.value.single().copy(
+            date = LocalDate.of(2025, 1, 2).plusDays(it), maxTemperatureC = 10.0 + it) }
+        val snapshot = original.copy(daily = original.daily!!.copy(value = days))
+        var shared = ""
+        var selectedCity: City? = null
+        val other = city.copy(id = "beijing", name = "北京")
+        composeRule.setContent { TiandiliTheme { WeatherScreen(
+            WeatherUiState(snapshot = snapshot, savedCities = listOf(city, other)), now,
+            onShareWeather = { shared = it }, onSelectCity = { selectedCity = it }) } }
+        composeRule.onNodeWithContentDescription("分享天气").performClick()
+        assertThat(shared).contains("Open-Meteo.com")
+        assertThat(shared).contains("杭州市")
+        composeRule.onNodeWithText("北京").performClick()
+        assertThat(selectedCity).isEqualTo(other)
+        composeRule.onNodeWithTag("weather_content").performScrollToNode(hasText("未来 15 日"))
+        composeRule.onNodeWithContentDescription("选择预报 2025-01-16")
+            .performSemanticsAction(SemanticsActions.OnClick) { it() }
+        composeRule.onNodeWithText("1月16日 · 多云 · 3–24℃").performScrollTo().assertIsDisplayed()
+        composeRule.onNodeWithText("该日暂无空气预报").performScrollTo().assertIsDisplayed()
     }
 
     private fun sampleSnapshot(

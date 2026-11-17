@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.isDisplayed
 import com.tiandili.calendar.domain.schedule.Schedule
 import com.tiandili.calendar.domain.schedule.ScheduleTiming
 import com.tiandili.calendar.platform.reminder.EXTRA_SCHEDULE_ID
@@ -38,6 +39,7 @@ class MainActivityIntentNavigationTest {
         composeRule.runOnIdle {
             deliverIntent(Intent().putExtra(EXTRA_SCHEDULE_ID, id))
         }
+        composeRule.waitUntil(5000) { composeRule.onNodeWithText("日程详情").isDisplayed() }
         composeRule.onNodeWithText("日程详情").assertIsDisplayed()
         composeRule.onNodeWithText("通知中的日程").assertIsDisplayed()
     }

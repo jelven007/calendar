@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:16.458Z" hostname="J6P0GGV20P" time="0.298">
+  <properties/>
+  <testcase name="all record metadata survive closing and opening an on disk database" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.033"/>
+  <testcase name="re enabling the same alarm revives its unique reminder and preserves offset after firing" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.024"/>
+  <testcase name="updating a schedule replaces recurrence and queues its old reminder cancellation" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.017"/>
+  <testcase name="saving an existing schedule updates the same row" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.018"/>
+  <testcase name="saving a historical lunar birthday schedules the first future reminder at nine" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.038"/>
+  <testcase name="editing a recurring schedule keeps an unchanged reminder without conflict" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.016"/>
+  <testcase name="saving a recurring timed schedule persists its rule and pending reminder" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.016"/>
+  <testcase name="time zone recovery replans alarms at device wall time and leaves schedules unchanged" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.021"/>
+  <testcase name="all day reminder uses nine in the morning as its local anchor" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.021"/>
+  <testcase name="deleting a schedule hides it from repository reads" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.026"/>
+  <testcase name="observing schedules returns domain models instead of Room entities" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.018"/>
+  <testcase name="deleting a schedule queues its active reminder for cancellation" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.016"/>
+  <testcase name="completed todo retains metadata and reminder preference while cancelling jobs" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.017"/>
+  <testcase name="saving and loading an all day schedule preserves its domain values" classname="com.tiandili.calendar.data.schedule.RoomScheduleRepositoryTest" time="0.016"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

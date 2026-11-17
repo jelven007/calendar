@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.MainActivitySettingsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:18:29.882Z" hostname="J6P0GGV20P" time="13.034">
+  <properties/>
+  <testcase name="export requires an explicit privacy acknowledgement" classname="com.tiandili.calendar.MainActivitySettingsTest" time="11.314"/>
+  <testcase name="clearing all data requires a second confirmation" classname="com.tiandili.calendar.MainActivitySettingsTest" time="0.601"/>
+  <testcase name="skin selection persists and back returns to grouped settings" classname="com.tiandili.calendar.MainActivitySettingsTest" time="0.367"/>
+  <testcase name="settings destination offers immediate week start selection" classname="com.tiandili.calendar.MainActivitySettingsTest" time="0.752"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[System.logW: A resource failed to call close. 
+]]></system-err>
+</testsuite>

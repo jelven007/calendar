@@ -21,9 +21,11 @@ class LunarJavaAlmanacEngine : AlmanacEngine {
             lunarMonthText = "${lunar.monthInChinese}月",
             lunarDayText = lunar.dayInChinese,
             zodiac = lunar.yearShengXiao,
-            festivals = (lunar.festivals + solar.festivals).distinct(),
+            festivals = (lunar.festivals + solar.festivals + solar.otherFestivals +
+                lunar.otherFestivals + civilFestivals(date)).distinct(),
             solarTerm = lunar.jieQi.takeIf(String::isNotBlank),
             yearGanzhi = lunar.yearInGanZhi,
+            monthGanzhi = lunar.monthInGanZhi,
             dayGanzhi = lunar.dayInGanZhi,
             suitable = lunar.dayYi,
             avoid = lunar.dayJi,
@@ -50,4 +52,11 @@ class LunarJavaAlmanacEngine : AlmanacEngine {
                 solarTerm = day.solarTerm,
             )
         }
+}
+
+private fun civilFestivals(date: LocalDate): List<String> = buildList {
+    if (date.monthValue == 11 && date.dayOfMonth == 8) add("记者节")
+    if (date.monthValue == 11 && date.dayOfMonth == 11) add("光棍节")
+    if (date.monthValue == 11 && date.dayOfWeek == java.time.DayOfWeek.THURSDAY &&
+        date.dayOfMonth in 22..28) add("感恩节")
 }

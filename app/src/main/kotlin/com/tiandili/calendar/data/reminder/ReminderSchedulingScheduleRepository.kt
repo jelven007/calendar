@@ -25,4 +25,5 @@ class ReminderSchedulingScheduleRepository(
     }
 
     override fun observeAll(): Flow<List<Schedule>> = delegate.observeAll()
+    override fun observeCancelledOccurrences() = delegate.observeCancelledOccurrences()
 }

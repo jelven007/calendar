@@ -17,6 +17,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -27,6 +28,31 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
 class RoomReminderDeliveryStoreTest {
+
+    @Test
+    fun `ringing authorization follows claim firing and cancellation state`() = runTest {
+        val id = insertScheduledReminder()
+        val entity = checkNotNull(dao.getSchedule(id))
+        dao.updateSchedule(entity.copy(kind = com.tiandili.calendar.domain.schedule.ScheduleKind.ALARM))
+        val jobId = dao.getReminderJobs(id).single().id
+        assertThat(dao.observeRingingJobActive(jobId).first()).isFalse()
+        checkNotNull(store.claim(jobId))
+        assertThat(dao.observeRingingJobActive(jobId).first()).isTrue()
+        store.markFired(jobId)
+        assertThat(dao.observeRingingJobActive(jobId).first()).isTrue()
+        dao.softDeleteScheduleDetails(id, clock.millis())
+        assertThat(dao.observeRingingJobActive(jobId).first()).isFalse()
+    }
+
+    @Test
+    fun `disabled or completed records cannot claim old scheduled broadcasts`() = runTest {
+        for (completed in listOf(false, true)) {
+            val id = insertScheduledReminder()
+            val entity = checkNotNull(dao.getSchedule(id))
+            dao.updateSchedule(entity.copy(enabled = completed, completed = completed))
+            assertThat(store.claim(dao.getReminderJobs(id).single().id)).isNull()
+        }
+    }
 
     private val zoneId = ZoneId.of("Asia/Shanghai")
     private val clock = Clock.fixed(

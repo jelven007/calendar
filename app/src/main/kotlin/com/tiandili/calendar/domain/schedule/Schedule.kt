@@ -12,7 +12,17 @@ data class Schedule(
     val note: String = "",
     val recurrence: RecurrenceRule? = null,
     val reminderMinutesBefore: Int? = null,
-)
+    val kind: ScheduleKind = ScheduleKind.SCHEDULE,
+    val enabled: Boolean = true,
+    val completed: Boolean = false,
+    val checklist: List<ChecklistItem> = emptyList(),
+    val mediaUris: List<String> = emptyList(),
+) {
+    val calendarEligible: Boolean
+        get() = enabled && !completed &&
+            (kind in setOf(ScheduleKind.SCHEDULE, ScheduleKind.BIRTHDAY,
+                ScheduleKind.ANNIVERSARY, ScheduleKind.ALARM) || reminderMinutesBefore != null)
+}
 
 sealed interface ScheduleTiming {
 

@@ -20,8 +20,20 @@ class MainActivityScheduleTest {
 
     @Test
     fun `activity wires the real schedule feature`() {
+        composeRule.onNodeWithText("我的").performClick()
         composeRule.onNodeWithText("日程").performClick()
 
         composeRule.onNodeWithContentDescription("添加日程").assertIsDisplayed()
+    }
+
+    @Test
+    fun `editor uses the full screen and restores tabs on close`() {
+        composeRule.onNodeWithText("我的").performClick()
+        composeRule.onNodeWithText("日程").performClick()
+        composeRule.onNodeWithContentDescription("添加日程").performClick()
+        composeRule.onNodeWithText("我的").assertDoesNotExist()
+        composeRule.onNodeWithContentDescription("保存日程").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("返回日程列表").performClick()
+        composeRule.onNodeWithText("我的").assertIsDisplayed()
     }
 }

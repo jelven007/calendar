@@ -3,6 +3,24 @@ package com.tiandili.calendar.data.local
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
+val MIGRATION_3_4 = object : Migration(3, 4) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE schedules ADD COLUMN kind TEXT NOT NULL DEFAULT 'SCHEDULE'")
+        db.execSQL("ALTER TABLE schedules ADD COLUMN enabled INTEGER NOT NULL DEFAULT 1")
+        db.execSQL("ALTER TABLE schedules ADD COLUMN completed INTEGER NOT NULL DEFAULT 0")
+        db.execSQL("ALTER TABLE schedules ADD COLUMN checklist_json TEXT NOT NULL DEFAULT '[]'")
+        db.execSQL("ALTER TABLE schedules ADD COLUMN media_uris_json TEXT NOT NULL DEFAULT '[]'")
+        db.execSQL("ALTER TABLE schedules ADD COLUMN reminder_minutes_before INTEGER")
+        db.execSQL("""UPDATE schedules SET reminder_minutes_before = (
+            SELECT CAST((occurrence_epoch_millis - trigger_at_epoch_millis) / 60000 AS INTEGER)
+            FROM reminder_outbox WHERE schedule_id = schedules.id
+              AND status NOT IN ('CANCELLED', 'CANCEL_PENDING')
+            ORDER BY id DESC LIMIT 1)""")
+        db.execSQL("ALTER TABLE recurrence_rules ADD COLUMN lunar_month INTEGER")
+        db.execSQL("ALTER TABLE recurrence_rules ADD COLUMN lunar_day INTEGER")
+    }
+}
+
 val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL(

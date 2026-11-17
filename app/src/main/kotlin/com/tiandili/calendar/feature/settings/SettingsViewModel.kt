@@ -9,6 +9,9 @@ import com.tiandili.calendar.data.backup.MAX_BACKUP_BYTES
 import com.tiandili.calendar.data.settings.SettingsRepository
 import com.tiandili.calendar.data.settings.ThemeMode
 import com.tiandili.calendar.data.settings.UserPreferences
+import com.tiandili.calendar.data.settings.CalendarAccent
+import com.tiandili.calendar.BuildConfig
+import android.os.Build
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
@@ -28,12 +31,14 @@ data class SettingsUiState(
     val busy: Boolean = false,
     val preview: BackupSnapshot? = null,
     val message: String? = null,
+    val update: ReleaseUpdate = ReleaseUpdate(),
 )
 
 class SettingsViewModel(
     private val repository: SettingsRepository,
     private val dataManager: LocalDataManager,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val updateClient: ReleaseUpdateClient = ReleaseUpdateClient(),
 ) : ViewModel() {
     val preferences = repository.preferences.stateIn(viewModelScope,
         SharingStarted.Eagerly, UserPreferences())
@@ -45,6 +50,19 @@ class SettingsViewModel(
     fun setDefaultReminder(minutes: Int?) = perform { repository.setDefaultReminderMinutes(minutes) }
     fun setLockScreenTitle(show: Boolean) = perform { repository.setShowScheduleTitleOnLockScreen(show) }
     fun setWidgetSchedule(show: Boolean) = perform { repository.setShowNextScheduleInWidget(show) }
+    fun setAccent(accent: CalendarAccent) = perform { repository.setAccent(accent) }
+    fun setNickname(nickname: String) = perform { repository.setNickname(nickname.trim()) }
+
+    fun checkUpdate() {
+        if (state.value.update.status == UpdateStatus.CHECKING) return
+        state.update { it.copy(update = ReleaseUpdate(UpdateStatus.CHECKING)) }
+        viewModelScope.launch {
+            val update = withContext(ioDispatcher) {
+                updateClient.check(BuildConfig.VERSION_CODE, Build.VERSION.SDK_INT)
+            }
+            state.update { it.copy(update = update) }
+        }
+    }
 
     fun readImport(open: () -> InputStream?) = perform {
         state.update { it.copy(preview = null) }

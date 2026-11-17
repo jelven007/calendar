@@ -14,6 +14,8 @@ import com.tiandili.calendar.MainActivity
 import com.tiandili.calendar.R
 import com.tiandili.calendar.domain.reminder.ReminderNotification
 import com.tiandili.calendar.domain.reminder.ReminderNotificationGateway
+import com.tiandili.calendar.domain.schedule.ScheduleKind
+import com.tiandili.calendar.platform.alarm.AlarmSoundService
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -38,6 +40,17 @@ class AndroidReminderNotificationGateway(
     override fun post(notification: ReminderNotification): Boolean {
         if (!canPostNotifications()) {
             return false
+        }
+        if (notification.kind == ScheduleKind.ALARM) {
+            return try {
+                applicationContext.startForegroundService(AlarmSoundService.startIntent(
+                    applicationContext, notification.jobId, notification.scheduleId, notification.title))
+                true
+            } catch (_: IllegalStateException) {
+                false
+            } catch (_: SecurityException) {
+                false
+            }
         }
         ensureChannel()
         notificationManager.notify(

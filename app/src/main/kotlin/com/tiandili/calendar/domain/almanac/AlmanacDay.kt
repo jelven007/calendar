@@ -16,6 +16,7 @@ data class AlmanacDay(
     val avoid: List<String>,
     val pengZu: List<String>,
     val deityDirections: List<DeityDirection>,
+    val monthGanzhi: String = "",
 )
 
 data class DeityDirection(

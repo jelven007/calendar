@@ -10,15 +10,20 @@ import org.junit.Test
 class MonthGridTest {
 
     @Test
-    fun `january 2025 Monday-first grid starts on December 30 and has 42 cells`() {
+    fun `january 2025 Monday-first grid uses only five rows`() {
         val cells = buildMonthGrid(
             yearMonth = YearMonth.of(2025, 1),
             firstDayOfWeek = DayOfWeek.MONDAY,
         )
 
-        assertThat(cells).hasSize(42)
+        assertThat(cells).hasSize(35)
         assertThat(cells.first().date).isEqualTo(LocalDate.of(2024, 12, 30))
-        assertThat(cells.last().date).isEqualTo(LocalDate.of(2025, 2, 9))
+        assertThat(cells.last().date).isEqualTo(LocalDate.of(2025, 2, 2))
+    }
+
+    @Test fun `grid supports exact four and six week months`() {
+        assertThat(buildMonthGrid(YearMonth.of(2026, 2), DayOfWeek.SUNDAY)).hasSize(28)
+        assertThat(buildMonthGrid(YearMonth.of(2026, 8), DayOfWeek.SUNDAY)).hasSize(42)
     }
 
     @Test

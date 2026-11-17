@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.platform.background.BackgroundWorkRequestsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:20.156Z" hostname="J6P0GGV20P" time="0.045">
+  <properties/>
+  <testcase name="midnight delay follows twenty three and twenty five hour DST days" classname="com.tiandili.calendar.platform.background.BackgroundWorkRequestsTest" time="0.014"/>
+  <testcase name="local widget fallback runs offline hourly" classname="com.tiandili.calendar.platform.background.BackgroundWorkRequestsTest" time="0.012"/>
+  <testcase name="weather repeats every three hours with connected network and exponential retry" classname="com.tiandili.calendar.platform.background.BackgroundWorkRequestsTest" time="0.008"/>
+  <testcase name="reminder compensation is daily and can run offline" classname="com.tiandili.calendar.platform.background.BackgroundWorkRequestsTest" time="0.011"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

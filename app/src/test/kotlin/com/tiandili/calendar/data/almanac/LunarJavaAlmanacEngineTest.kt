@@ -10,6 +10,12 @@ class LunarJavaAlmanacEngineTest {
 
     private val engine = LunarJavaAlmanacEngine()
 
+    @Test fun `november includes reference civil festivals and month ganzhi`() {
+        val zone = ZoneId.of("Asia/Shanghai")
+        assertThat(engine.day(LocalDate.of(2026, 11, 8), zone).festivals).contains("记者节")
+        assertThat(engine.day(LocalDate.of(2026, 11, 26), zone).festivals).contains("感恩节")
+    }
+
     @Test
     fun `maps 2025 spring festival to the first day of the first lunar month`() {
         val day = engine.day(

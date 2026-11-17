@@ -23,6 +23,7 @@ object NextReminderPlanner {
         currentOccurrenceEpochMillis: Long,
         defaultZoneId: ZoneId = ZoneId.systemDefault(),
     ): ReminderPlan? {
+        if (!schedule.enabled || schedule.completed) return null
         val rule = schedule.recurrence ?: return null
         val minutesBefore = schedule.reminderMinutesBefore ?: return null
         val zoneId = when (val timing = schedule.timing) {

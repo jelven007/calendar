@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.platform.reminder.ReminderReceiversTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:21.651Z" hostname="J6P0GGV20P" time="0.046">
+  <properties/>
+  <testcase name="alarm receiver dispatches a valid reminder job" classname="com.tiandili.calendar.platform.reminder.ReminderReceiversTest" time="0.015"/>
+  <testcase name="alarm receiver ignores an invalid reminder intent" classname="com.tiandili.calendar.platform.reminder.ReminderReceiversTest" time="0.008"/>
+  <testcase name="recovery receiver rebuilds alarms for supported system events" classname="com.tiandili.calendar.platform.reminder.ReminderReceiversTest" time="0.013"/>
+  <testcase name="recovery receiver ignores unrelated broadcasts" classname="com.tiandili.calendar.platform.reminder.ReminderReceiversTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

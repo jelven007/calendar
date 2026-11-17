@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.platform.widget.CalendarWidgetContentTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:21.757Z" hostname="J6P0GGV20P" time="0.109">
+  <properties/>
+  <testcase name="large widget still masks a previously visible cached title" classname="com.tiandili.calendar.platform.widget.CalendarWidgetContentTest" time="0.048"/>
+  <testcase name="compact widget has separate calendar weather and attribution actions" classname="com.tiandili.calendar.platform.widget.CalendarWidgetContentTest" time="0.018"/>
+  <testcase name="missing snapshot renders real date and an open app action" classname="com.tiandili.calendar.platform.widget.CalendarWidgetContentTest" time="0.014"/>
+  <testcase name="offline widget hides source and retains lunar date" classname="com.tiandili.calendar.platform.widget.CalendarWidgetContentTest" time="0.014"/>
+  <testcase name="explicitly enabled large widget links to the actual schedule" classname="com.tiandili.calendar.platform.widget.CalendarWidgetContentTest" time="0.014"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

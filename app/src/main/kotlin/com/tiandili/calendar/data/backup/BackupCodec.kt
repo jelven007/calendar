@@ -4,6 +4,9 @@ import com.squareup.moshi.JsonClass
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.Moshi
 import com.tiandili.calendar.data.settings.ThemeMode
+import com.tiandili.calendar.data.settings.CalendarAccent
+import com.tiandili.calendar.domain.schedule.ChecklistItem
+import com.tiandili.calendar.domain.schedule.ScheduleKind
 import com.tiandili.calendar.data.settings.UserPreferences
 import com.tiandili.calendar.domain.schedule.RecurrenceFrequency
 import com.tiandili.calendar.domain.schedule.RecurrenceRule
@@ -58,7 +61,7 @@ class BackupCodec(moshi: Moshi) {
         val document = requireNotNull(adapter.fromJson(reader)) { "备份内容为空" }
         require(reader.peek() == JsonReader.Token.END_DOCUMENT) { "备份文件包含多余内容" }
         require(document.appId == BACKUP_APP_ID) { "不是天地历备份文件" }
-        require(document.formatVersion == 1) { "不支持的备份版本：${document.formatVersion}" }
+        require(document.formatVersion in 1..2) { "不支持的备份版本：${document.formatVersion}" }
         document.toSnapshot().also(::validate)
     }
 
@@ -116,7 +119,7 @@ class BackupCodec(moshi: Moshi) {
         snapshot.cities.forEach { city ->
             require(city.id.isNotBlank() && city.id.length <= 200 &&
                 city.name.isNotBlank() && city.name.length <= 200 &&
-                city.country.isNotBlank() && city.country.length <= 200 &&
+                city.country.length <= 200 &&
                 (city.admin1 == null || city.admin1.length <= 200) &&
                 city.latitude.isFinite() && city.latitude in -90.0..90.0 &&
                 city.longitude.isFinite() && city.longitude in -180.0..180.0) { "城市信息无效" }
@@ -159,6 +162,11 @@ internal data class BackupSchedule(
     val zoneId: String?,
     val recurrence: BackupRecurrence?,
     val reminderMinutesBefore: Int?,
+    val kind: String = "SCHEDULE",
+    val enabled: Boolean = true,
+    val completed: Boolean = false,
+    val checklist: List<ChecklistItem> = emptyList(),
+    val mediaUris: List<String> = emptyList(),
 )
 
 @JsonClass(generateAdapter = true)
@@ -168,6 +176,8 @@ internal data class BackupRecurrence(
     val weekdays: List<Int>,
     val until: String?,
     val count: Int?,
+    val lunarMonth: Int? = null,
+    val lunarDay: Int? = null,
 )
 
 @JsonClass(generateAdapter = true)
@@ -184,6 +194,8 @@ internal data class BackupPreferences(
     val themeMode: String,
     val showScheduleTitleOnLockScreen: Boolean,
     val showNextScheduleInWidget: Boolean,
+    val accent: String = "RED",
+    val nickname: String = "历友",
 )
 
 @JsonClass(generateAdapter = true)
@@ -199,7 +211,7 @@ internal data class BackupCity(
 
 private fun BackupSnapshot.toDocument() = BackupDocument(
     appId = BACKUP_APP_ID,
-    formatVersion = 1,
+    formatVersion = 2,
     exportedAt = exportedAt.toString(),
     schedules = schedules.map { schedule ->
         val timing = schedule.timing
@@ -219,9 +231,14 @@ private fun BackupSnapshot.toDocument() = BackupDocument(
             zoneId = (timing as? ScheduleTiming.Timed)?.zoneId?.id,
             recurrence = schedule.recurrence?.let {
                 BackupRecurrence(it.frequency.name, it.interval, it.weekdays.map(DayOfWeek::getValue).sorted(),
-                    it.until?.toString(), it.count)
+                    it.until?.toString(), it.count, it.lunarMonth, it.lunarDay)
             },
             reminderMinutesBefore = schedule.reminderMinutesBefore,
+            kind = schedule.kind.name,
+            enabled = schedule.enabled,
+            completed = schedule.completed,
+            checklist = schedule.checklist,
+            mediaUris = schedule.mediaUris,
         )
     },
     exceptions = exceptions.map { BackupExceptionRecord(it.scheduleId, it.occurrenceDate.toString(), it.cancelled) },
@@ -247,9 +264,15 @@ private fun BackupDocument.toSnapshot() = BackupSnapshot(
             recurrence = schedule.recurrence?.let {
                 require(it.weekdays.distinct().size == it.weekdays.size) { "重复星期无效" }
                 RecurrenceRule(RecurrenceFrequency.valueOf(it.frequency), it.interval,
-                    it.weekdays.mapTo(mutableSetOf(), DayOfWeek::of), it.until?.let(LocalDate::parse), it.count)
+                    it.weekdays.mapTo(mutableSetOf(), DayOfWeek::of), it.until?.let(LocalDate::parse),
+                    it.count, it.lunarMonth, it.lunarDay)
             },
             reminderMinutesBefore = schedule.reminderMinutesBefore,
+            kind = ScheduleKind.valueOf(schedule.kind),
+            enabled = schedule.enabled,
+            completed = schedule.completed,
+            checklist = schedule.checklist,
+            mediaUris = schedule.mediaUris,
         )
     },
     exceptions = exceptions.map { BackupException(it.scheduleId, LocalDate.parse(it.occurrenceDate), it.cancelled) },
@@ -260,10 +283,10 @@ private fun BackupDocument.toSnapshot() = BackupSnapshot(
 
 private fun UserPreferences.toBackupPreferences() = BackupPreferences(
     firstDayOfWeek.name, defaultReminderMinutes, themeMode.name,
-    showScheduleTitleOnLockScreen, showNextScheduleInWidget,
+    showScheduleTitleOnLockScreen, showNextScheduleInWidget, accent.name, nickname,
 )
 
 private fun BackupPreferences.toPreferences() = UserPreferences(
     DayOfWeek.valueOf(firstDayOfWeek), defaultReminderMinutes, ThemeMode.valueOf(themeMode),
-    showScheduleTitleOnLockScreen, showNextScheduleInWidget,
+    showScheduleTitleOnLockScreen, showNextScheduleInWidget, CalendarAccent.valueOf(accent), nickname,
 )

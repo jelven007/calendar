@@ -70,7 +70,8 @@ class OpenMeteoApiContractTest {
 
         assertThat(requestUrl?.queryParameter("timezone")).isEqualTo("Asia/Shanghai")
         assertThat(requestUrl?.queryParameter("timeformat")).isEqualTo("unixtime")
-        assertThat(requestUrl?.queryParameter("forecast_days")).isEqualTo("7")
+        assertThat(requestUrl?.queryParameter("forecast_days")).isEqualTo("15")
+        assertThat(requestUrl?.queryParameter("current")).contains("wind_direction_10m")
         assertThat(forecast.current.observedAt.toLocalTime()).isEqualTo(LocalTime.of(13, 0))
         assertThat(forecast.hourly).hasSize(3)
         assertThat(forecast.daily.first().date).isEqualTo(LocalDate.of(2025, 1, 2))
@@ -92,8 +93,10 @@ class OpenMeteoApiContractTest {
 
         assertThat(airQuality.usAqi).isEqualTo(42)
         assertThat(airQuality.pm25MicrogramsPerCubicMeter).isWithin(0.01).of(12.3)
-        assertThat(server.takeRequest().requestUrl?.queryParameter("current"))
-            .contains("us_aqi")
+        val url = server.takeRequest().requestUrl
+        assertThat(url?.queryParameter("current")).contains("us_aqi")
+        assertThat(url?.queryParameter("hourly")).isEqualTo("us_aqi")
+        assertThat(url?.queryParameter("forecast_days")).isEqualTo("5")
     }
 
     @Test

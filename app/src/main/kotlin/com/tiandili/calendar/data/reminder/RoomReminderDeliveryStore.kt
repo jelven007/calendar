@@ -22,6 +22,7 @@ class RoomReminderDeliveryStore(
                 title = row.title,
                 occurrenceEpochMillis = row.occurrenceEpochMillis,
                 triggerAtEpochMillis = row.triggerAtEpochMillis,
+                kind = row.kind,
             )
         }
 

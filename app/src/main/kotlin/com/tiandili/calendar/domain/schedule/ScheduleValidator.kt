@@ -4,6 +4,8 @@ enum class ScheduleField {
     TITLE,
     TIMING,
     NOTE,
+    CHECKLIST,
+    MEDIA,
 }
 
 enum class ScheduleValidationError(
@@ -13,6 +15,8 @@ enum class ScheduleValidationError(
     TITLE_TOO_LONG(ScheduleField.TITLE),
     INVALID_TIME_RANGE(ScheduleField.TIMING),
     NOTE_TOO_LONG(ScheduleField.NOTE),
+    INVALID_CHECKLIST(ScheduleField.CHECKLIST),
+    INVALID_MEDIA(ScheduleField.MEDIA),
 }
 
 object ScheduleValidator {
@@ -34,8 +38,21 @@ object ScheduleValidator {
                 }
         }
         val noteError = ScheduleValidationError.NOTE_TOO_LONG.takeIf {
-            schedule.note.length > 1000
+            schedule.note.length > if (schedule.kind in setOf(ScheduleKind.NOTE, ScheduleKind.ARTICLE))
+                20000 else 1000
         }
-        return listOfNotNull(titleError, timingError, noteError)
+        val checklistError = ScheduleValidationError.INVALID_CHECKLIST.takeIf {
+            schedule.checklist.size > 50 ||
+                schedule.checklist.any { it.title.isBlank() || it.title.length > 200 }
+        }
+        val mediaError = ScheduleValidationError.INVALID_MEDIA.takeIf {
+            schedule.mediaUris.size > 9 || schedule.mediaUris.any { value ->
+                value.length > 1024 || runCatching {
+                    val uri = java.net.URI(value)
+                    uri.scheme != "content" || uri.authority.isNullOrBlank()
+                }.getOrDefault(true)
+            }
+        }
+        return listOfNotNull(titleError, timingError, noteError, checklistError, mediaError)
     }
 }

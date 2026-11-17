@@ -25,8 +25,8 @@ android {
         applicationId = "com.tiandili.calendar"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -156,6 +156,36 @@ dependencies {
 tasks.withType<Test>().configureEach {
     if (name == "testDebugUnitTest") {
         exclude("**/WidgetRenderingTest*")
+        exclude("**/AlarmSoundServiceTest*")
+        exclude("**/UiRenderingTest*")
+        exclude("**/AppStartupCompatibilityTest*")
+    }
+}
+
+tasks.register<Test>("testUiRendering") {
+    group = "verification"
+    description = "Render and verify native Compose pages in an isolated JVM."
+    val unitTests = tasks.named<Test>("testDebugUnitTest").get()
+    testClassesDirs = unitTests.testClassesDirs
+    classpath = unitTests.classpath
+    systemProperties(unitTests.systemProperties)
+    jvmArgs(unitTests.jvmArgs.orEmpty())
+    include("**/UiRenderingTest*")
+    dependsOn("compileDebugUnitTestKotlin", "generateDebugUnitTestConfig")
+}
+
+listOf(26, 35).forEach { sdk ->
+    tasks.register<Test>("testStartupApi$sdk") {
+        group = "verification"
+        description = "Verify app startup on Android API $sdk in an isolated JVM."
+        val unitTests = tasks.named<Test>("testDebugUnitTest").get()
+        testClassesDirs = unitTests.testClassesDirs
+        classpath = unitTests.classpath
+        systemProperties(unitTests.systemProperties)
+        systemProperty("robolectric.enabledSdks", sdk.toString())
+        jvmArgs(unitTests.jvmArgs.orEmpty())
+        include("**/AppStartupCompatibilityTest*")
+        dependsOn("compileDebugUnitTestKotlin", "generateDebugUnitTestConfig")
     }
 }
 
@@ -169,4 +199,19 @@ tasks.register<Test>("testWidgetRendering") {
     jvmArgs(unitTests.jvmArgs.orEmpty())
     include("**/WidgetRenderingTest*")
     dependsOn("compileDebugUnitTestKotlin", "generateDebugUnitTestConfig")
+}
+
+listOf(26, 35).forEach { sdk ->
+    tasks.register<Test>("testAlarmApi$sdk") {
+        group = "verification"
+        description = "Verify alarm service lifecycle on Android API $sdk in an isolated JVM."
+        val unitTests = tasks.named<Test>("testDebugUnitTest").get()
+        testClassesDirs = unitTests.testClassesDirs
+        classpath = unitTests.classpath
+        systemProperties(unitTests.systemProperties)
+        systemProperty("robolectric.enabledSdks", sdk.toString())
+        jvmArgs(unitTests.jvmArgs.orEmpty())
+        include("**/AlarmSoundServiceTest*")
+        dependsOn("compileDebugUnitTestKotlin", "generateDebugUnitTestConfig")
+    }
 }

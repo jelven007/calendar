@@ -2,6 +2,8 @@ package com.tiandili.calendar.data.schedule
 
 import com.tiandili.calendar.domain.schedule.Schedule
 import com.tiandili.calendar.domain.schedule.ScheduleTiming
+import com.tiandili.calendar.domain.schedule.ScheduleKind
+import com.tiandili.calendar.domain.reminder.NextReminderPlanner
 import com.tiandili.calendar.domain.reminder.DEFAULT_ALL_DAY_REMINDER_TIME
 import java.time.Clock
 import java.time.DayOfWeek
@@ -15,9 +17,17 @@ import kotlinx.coroutines.flow.map
 class RoomScheduleRepository(
     private val dao: ScheduleDao,
     private val clock: Clock,
+    private val deviceZoneId: () -> ZoneId = { clock.zone },
 ) : ScheduleRepository {
 
     override suspend fun save(schedule: Schedule): Long {
+        val normalized = if (schedule.kind == ScheduleKind.ALARM && schedule.timing is ScheduleTiming.Timed) {
+            schedule.copy(timing = schedule.timing.copy(zoneId = deviceZoneId()))
+        } else schedule
+        return saveNormalized(normalized)
+    }
+
+    private suspend fun saveNormalized(schedule: Schedule): Long {
         val now = clock.millis()
         if (schedule.id != 0L) {
             val stored = requireNotNull(dao.getSchedule(schedule.id)) {
@@ -28,7 +38,7 @@ class RoomScheduleRepository(
                     createdAtEpochMillis = stored.createdAtEpochMillis,
                 ),
                 recurrenceRule = schedule.recurrence?.toEntity(),
-                reminder = schedule.reminderMinutesBefore?.let { minutesBefore ->
+                reminder = schedule.reminderMinutesBefore?.takeIf { schedule.enabled && !schedule.completed }?.let { minutesBefore ->
                     schedule.toReminderEntity(minutesBefore, now, clock.zone)
                 },
             )
@@ -37,7 +47,7 @@ class RoomScheduleRepository(
         return dao.insertScheduleDetails(
             schedule = schedule.toEntity(now),
             recurrenceRule = schedule.recurrence?.toEntity(),
-            reminder = schedule.reminderMinutesBefore?.let { minutesBefore ->
+            reminder = schedule.reminderMinutesBefore?.takeIf { schedule.enabled && !schedule.completed }?.let { minutesBefore ->
                 schedule.toReminderEntity(minutesBefore, now, clock.zone)
             },
         )
@@ -58,6 +68,16 @@ class RoomScheduleRepository(
         )
     }
 
+    suspend fun replanAlarmTimeZones() {
+        val currentZone = deviceZoneId()
+        dao.getAllScheduleDetails().filter { it.schedule.kind == ScheduleKind.ALARM }.forEach { details ->
+            val record = details.schedule.toDomainSchedule(details.recurrenceRules.firstOrNull(),
+                details.reminderJobs.firstOrNull(ReminderOutboxEntity::isActive))
+            val timing = record.timing as? ScheduleTiming.Timed ?: return@forEach
+            if (timing.zoneId != currentZone) save(record.copy(timing = timing.copy(zoneId = currentZone)))
+        }
+    }
+
     override fun observeAll(): Flow<List<Schedule>> =
         dao.observeAllScheduleDetails().map { schedules ->
             schedules.map { details ->
@@ -65,6 +85,13 @@ class RoomScheduleRepository(
                     recurrenceRule = details.recurrenceRules.firstOrNull(),
                     reminder = details.reminderJobs.firstOrNull(ReminderOutboxEntity::isActive),
                 )
+            }
+        }
+
+    override fun observeCancelledOccurrences(): Flow<Map<Long, Set<LocalDate>>> =
+        dao.observeCancelledExceptions().map { exceptions ->
+            exceptions.groupBy { it.scheduleId }.mapValues { (_, values) ->
+                values.mapTo(mutableSetOf()) { LocalDate.ofEpochDay(it.occurrenceDateEpochDay) }
             }
         }
 }
@@ -97,7 +124,14 @@ private fun Schedule.toEntity(now: Long): ScheduleEntity =
             createdAtEpochMillis = now,
             updatedAtEpochMillis = now,
         )
-    }
+    }.copy(
+        kind = kind,
+        enabled = enabled,
+        completed = completed,
+        checklistJson = RecordMetadataCodec.encodeChecklist(checklist),
+        mediaUrisJson = RecordMetadataCodec.encodeMedia(mediaUris),
+        reminderMinutesBefore = reminderMinutesBefore,
+    )
 
 internal fun ScheduleEntity.toDomainSchedule(
     recurrenceRule: RecurrenceRuleEntity?,
@@ -129,9 +163,14 @@ internal fun ScheduleEntity.toDomainSchedule(
         timing = timing,
         note = note,
         recurrence = recurrenceRule?.toDomainRule(),
-        reminderMinutesBefore = reminder?.let {
+        reminderMinutesBefore = reminderMinutesBefore ?: reminder?.let {
             ((it.occurrenceEpochMillis - it.triggerAtEpochMillis) / 60_000).toInt()
         },
+        kind = kind,
+        enabled = enabled,
+        completed = completed,
+        checklist = RecordMetadataCodec.decodeChecklist(checklistJson),
+        mediaUris = RecordMetadataCodec.decodeMedia(mediaUrisJson),
     )
 }
 
@@ -144,6 +183,8 @@ private fun com.tiandili.calendar.domain.schedule.RecurrenceRule.toEntity() =
         },
         untilEpochDay = until?.toEpochDay(),
         count = count,
+        lunarMonth = lunarMonth,
+        lunarDay = lunarDay,
     )
 
 internal fun RecurrenceRuleEntity.toDomainRule() =
@@ -155,13 +196,15 @@ internal fun RecurrenceRuleEntity.toDomainRule() =
         },
         until = untilEpochDay?.let(LocalDate::ofEpochDay),
         count = count,
+        lunarMonth = lunarMonth,
+        lunarDay = lunarDay,
     )
 
 private fun Schedule.toReminderEntity(
     minutesBefore: Int,
     now: Long,
     defaultZoneId: ZoneId,
-): ReminderOutboxEntity {
+): ReminderOutboxEntity? {
     val occurrenceEpochMillis = when (val scheduleTiming = timing) {
         is ScheduleTiming.AllDay ->
             scheduleTiming.startDate
@@ -172,9 +215,15 @@ private fun Schedule.toReminderEntity(
         is ScheduleTiming.Timed ->
             scheduleTiming.startsAt.atZone(scheduleTiming.zoneId).toInstant().toEpochMilli()
     }
+    val trigger = occurrenceEpochMillis - minutesBefore * 60_000L
+    val plan = if (kind in setOf(ScheduleKind.ALARM, ScheduleKind.BIRTHDAY, ScheduleKind.ANNIVERSARY)
+        && trigger < now) {
+        NextReminderPlanner.planAfter(this, now + minutesBefore * 60_000L - 1, defaultZoneId)
+            ?: return null
+    } else com.tiandili.calendar.domain.reminder.ReminderPlan(occurrenceEpochMillis, trigger)
     return ReminderOutboxEntity(
-        occurrenceEpochMillis = occurrenceEpochMillis,
-        triggerAtEpochMillis = occurrenceEpochMillis - minutesBefore * 60_000L,
+        occurrenceEpochMillis = plan.occurrenceEpochMillis,
+        triggerAtEpochMillis = plan.triggerAtEpochMillis,
         status = ReminderOutboxStatus.PENDING,
         createdAtEpochMillis = now,
     )

@@ -62,6 +62,7 @@ object OpenMeteoMapper {
                 weatherCode = dto.current.weatherCode,
                 windSpeedKph = dto.current.windSpeed,
                 isDay = dto.current.isDay == 1,
+                windDirectionDegrees = dto.current.windDirection?.takeIf { it in 0.0..360.0 },
             ),
             hourly = dto.hourly.time.indices.map { index ->
                 HourlyForecast(
@@ -92,6 +93,7 @@ object OpenMeteoMapper {
         require(dto.timezone == city.zoneId.id) {
             "air quality timezone ${dto.timezone} does not match ${city.zoneId.id}"
         }
+        dto.hourly?.let { requireParallelSizes("air hourly", it.time.size, it.usAqi.size) }
         return AirQuality(
             observedAt = dto.current.time.atZone(city.zoneId),
             usAqi = dto.current.usAqi,
@@ -99,6 +101,14 @@ object OpenMeteoMapper {
             pm10MicrogramsPerCubicMeter = dto.current.pm10,
             ozoneMicrogramsPerCubicMeter = dto.current.ozone,
             nitrogenDioxideMicrogramsPerCubicMeter = dto.current.nitrogenDioxide,
+            hourlyUsAqi = dto.hourly?.let { hourly ->
+                hourly.time.indices.mapNotNull { index ->
+                    hourly.usAqi[index]?.takeIf { it >= 0 }?.let {
+                        com.tiandili.calendar.domain.weather.HourlyAirQuality(
+                            hourly.time[index].atZone(city.zoneId), it)
+                    }
+                }
+            }.orEmpty(),
         )
     }
 

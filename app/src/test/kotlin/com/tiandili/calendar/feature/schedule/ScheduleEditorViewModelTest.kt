@@ -32,6 +32,66 @@ class ScheduleEditorViewModelTest {
     private val clock = Clock.fixed(Instant.parse("2025-02-02T01:00:00Z"), zoneId)
     private lateinit var repository: RecordingScheduleRepository
 
+    @Test fun `lunar birthday and four day alarm survive save and reload`() {
+        val vm = ScheduleEditorViewModel(repository, clock, zoneId)
+        vm.startNew(com.tiandili.calendar.domain.schedule.ScheduleKind.BIRTHDAY)
+        vm.onTitleChanged("农历生日")
+        vm.onStartDateChanged(LocalDate.of(2025, 1, 29))
+        vm.onLunarChanged(true)
+        vm.save()
+        val birthday = repository.savedSchedules.single()
+        assertThat(birthday.recurrence?.lunarMonth).isEqualTo(1)
+        assertThat(birthday.recurrence?.lunarDay).isEqualTo(1)
+        assertThat(birthday.timing).isEqualTo(ScheduleTiming.AllDay(LocalDate.of(2025, 1, 29), LocalDate.of(2025, 1, 30)))
+        repository.schedulesById[11] = birthday.copy(id = 11)
+        vm.load(11)
+        assertThat(vm.uiState.value.lunarDay).isEqualTo(1)
+        vm.startNew(com.tiandili.calendar.domain.schedule.ScheduleKind.ALARM)
+        vm.onTitleChanged("四天轮班")
+        vm.onRecurrenceIntervalChanged(4)
+        vm.onStartTimeChanged(LocalTime.of(23, 59))
+        vm.save()
+        val alarm = repository.savedSchedules.last()
+        assertThat(alarm.recurrence).isEqualTo(RecurrenceRule(RecurrenceFrequency.DAILY, interval = 4))
+        assertThat(alarm.reminderMinutesBefore).isEqualTo(0)
+        assertThat((alarm.timing as ScheduleTiming.Timed).endsAt).isEqualTo(LocalDateTime.of(2025, 2, 3, 0, 0))
+    }
+
+    @Test fun `subtask completion derives parent completion and parent toggle updates all subtasks`() {
+        val vm = ScheduleEditorViewModel(repository, clock, zoneId)
+        vm.startNew(com.tiandili.calendar.domain.schedule.ScheduleKind.TODO)
+        vm.addChecklistItem(" 第一章 ")
+        vm.addChecklistItem("第二章")
+        vm.toggleChecklistItem(0, true)
+        assertThat(vm.uiState.value.completed).isFalse()
+        vm.toggleChecklistItem(1, true)
+        assertThat(vm.uiState.value.completed).isTrue()
+        vm.onCompletedChanged(false)
+        assertThat(vm.uiState.value.checklist.none { it.completed }).isTrue()
+        vm.toggleChecklistItem(0, true)
+        vm.removeChecklistItem(1)
+        assertThat(vm.uiState.value.completed).isTrue()
+    }
+
+    @Test fun `title edit preserves full recurrence zone and record metadata`() {
+        val original = Schedule(id = 5, title = "轮班",
+            timing = ScheduleTiming.Timed(LocalDateTime.of(2025, 2, 2, 9, 0),
+                LocalDateTime.of(2025, 2, 2, 10, 0), ZoneId.of("Europe/London")),
+            recurrence = RecurrenceRule(RecurrenceFrequency.WEEKLY, interval = 2,
+                weekdays = setOf(java.time.DayOfWeek.TUESDAY, java.time.DayOfWeek.FRIDAY),
+                count = 20, until = LocalDate.of(2026, 3, 1)),
+            kind = com.tiandili.calendar.domain.schedule.ScheduleKind.TODO,
+            enabled = false, completed = true,
+            checklist = listOf(com.tiandili.calendar.domain.schedule.ChecklistItem("子事项", true)),
+            mediaUris = listOf("content://media/external/images/media/1"))
+        repository.schedulesById[5] = original
+        val vm = ScheduleEditorViewModel(repository, clock, zoneId)
+        vm.load(5)
+        vm.onTitleChanged("改名")
+        vm.save()
+        assertThat(repository.savedSchedules.single()).isEqualTo(original.copy(title = "改名"))
+    }
+
     @Test
     fun `new schedules use the current default reminder`() {
         var defaultMinutes: Int? = 15

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.domain.schedule.ScheduleValidatorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.650Z" hostname="J6P0GGV20P" time="0.001">
+  <properties/>
+  <testcase name="typed records validate bounded content checklist and system media references" classname="com.tiandili.calendar.domain.schedule.ScheduleValidatorTest" time="0.001"/>
+  <testcase name="title longer than 80 characters is rejected on the title field" classname="com.tiandili.calendar.domain.schedule.ScheduleValidatorTest" time="0.0"/>
+  <testcase name="lunar recurrence requires paired valid lunar month and day on yearly rules" classname="com.tiandili.calendar.domain.schedule.ScheduleValidatorTest" time="0.0"/>
+  <testcase name="blank title is rejected on the title field" classname="com.tiandili.calendar.domain.schedule.ScheduleValidatorTest" time="0.0"/>
+  <testcase name="note longer than 1000 characters is rejected on the note field" classname="com.tiandili.calendar.domain.schedule.ScheduleValidatorTest" time="0.0"/>
+  <testcase name="timed schedule ending before it starts is rejected on the timing field" classname="com.tiandili.calendar.domain.schedule.ScheduleValidatorTest" time="0.0"/>
+  <testcase name="all day schedule ending on or before its start is rejected on the timing field" classname="com.tiandili.calendar.domain.schedule.ScheduleValidatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

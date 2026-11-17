@@ -20,14 +20,19 @@ enum class ThemeMode {
     DARK,
 }
 
+enum class CalendarAccent { RED, JADE, BLUE }
+
 data class UserPreferences(
-    val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
+    val firstDayOfWeek: DayOfWeek = DayOfWeek.SUNDAY,
     val defaultReminderMinutes: Int? = null,
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val showScheduleTitleOnLockScreen: Boolean = false,
     val showNextScheduleInWidget: Boolean = false,
+    val accent: CalendarAccent = CalendarAccent.RED,
+    val nickname: String = "历友",
 ) {
     init {
+        require(nickname.isNotBlank() && nickname.length <= 30) { "昵称需要 1–30 个字" }
         require(firstDayOfWeek == DayOfWeek.MONDAY || firstDayOfWeek == DayOfWeek.SUNDAY) {
             "Week must start on Monday or Sunday"
         }
@@ -55,6 +60,10 @@ interface SettingsRepository {
     suspend fun setShowNextScheduleInWidget(show: Boolean)
 
     suspend fun reset()
+
+    suspend fun setAccent(accent: CalendarAccent) = replace(current().copy(accent = accent))
+
+    suspend fun setNickname(nickname: String) = replace(current().copy(nickname = nickname))
 }
 
 class DataStoreSettingsRepository(
@@ -82,6 +91,8 @@ class DataStoreSettingsRepository(
             stored[SHOW_SCHEDULE_TITLE_ON_LOCK_SCREEN] =
                 preferences.showScheduleTitleOnLockScreen
             stored[SHOW_NEXT_SCHEDULE_IN_WIDGET] = preferences.showNextScheduleInWidget
+            stored[ACCENT] = preferences.accent.name
+            stored[NICKNAME] = preferences.nickname
         }
     }
 
@@ -113,6 +124,15 @@ class DataStoreSettingsRepository(
         dataStore.edit { it[SHOW_NEXT_SCHEDULE_IN_WIDGET] = show }
     }
 
+    override suspend fun setAccent(accent: CalendarAccent) {
+        dataStore.edit { it[ACCENT] = accent.name }
+    }
+
+    override suspend fun setNickname(nickname: String) {
+        require(nickname.isNotBlank() && nickname.length <= 30) { "昵称需要 1–30 个字" }
+        dataStore.edit { it[NICKNAME] = nickname }
+    }
+
     override suspend fun reset() {
         dataStore.edit { it.clear() }
     }
@@ -121,7 +141,7 @@ class DataStoreSettingsRepository(
         firstDayOfWeek = this[FIRST_DAY_OF_WEEK]
             ?.let { runCatching { DayOfWeek.valueOf(it) }.getOrNull() }
             ?.takeIf { it == DayOfWeek.MONDAY || it == DayOfWeek.SUNDAY }
-            ?: DayOfWeek.MONDAY,
+            ?: DayOfWeek.SUNDAY,
         defaultReminderMinutes = this[DEFAULT_REMINDER_MINUTES]
             ?.takeIf { it in 0..525_600 },
         themeMode = this[THEME_MODE]
@@ -130,12 +150,17 @@ class DataStoreSettingsRepository(
         showScheduleTitleOnLockScreen =
             this[SHOW_SCHEDULE_TITLE_ON_LOCK_SCREEN] ?: false,
         showNextScheduleInWidget = this[SHOW_NEXT_SCHEDULE_IN_WIDGET] ?: false,
+        accent = this[ACCENT]?.let { runCatching { CalendarAccent.valueOf(it) }.getOrNull() }
+            ?: CalendarAccent.RED,
+        nickname = this[NICKNAME]?.takeIf { it.isNotBlank() && it.length <= 30 } ?: "历友",
     )
 
     private companion object {
         val FIRST_DAY_OF_WEEK = stringPreferencesKey("first_day_of_week")
         val DEFAULT_REMINDER_MINUTES = intPreferencesKey("default_reminder_minutes")
         val THEME_MODE = stringPreferencesKey("theme_mode")
+        val ACCENT = stringPreferencesKey("calendar_accent")
+        val NICKNAME = stringPreferencesKey("nickname")
         val SHOW_SCHEDULE_TITLE_ON_LOCK_SCREEN =
             booleanPreferencesKey("show_schedule_title_on_lock_screen")
         val SHOW_NEXT_SCHEDULE_IN_WIDGET =

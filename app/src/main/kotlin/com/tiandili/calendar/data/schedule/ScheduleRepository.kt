@@ -12,4 +12,7 @@ interface ScheduleRepository {
     suspend fun delete(scheduleId: Long)
 
     fun observeAll(): Flow<List<Schedule>>
+
+    fun observeCancelledOccurrences(): Flow<Map<Long, Set<java.time.LocalDate>>> =
+        kotlinx.coroutines.flow.flowOf(emptyMap())
 }

@@ -5,7 +5,9 @@ import java.time.temporal.ChronoUnit
 
 fun Schedule.occurrenceDates(
     window: ClosedRange<LocalDate>,
+    cancelledStarts: Set<LocalDate> = emptySet(),
 ): Set<LocalDate> {
+    if (!enabled || completed) return emptySet()
     val startDate: LocalDate
     val durationDays: Long
     when (val scheduleTiming = timing) {
@@ -33,6 +35,7 @@ fun Schedule.occurrenceDates(
     } ?: listOf(startDate)
 
     return occurrenceStarts
+        .filterNot { it in cancelledStarts }
         .flatMap { occurrenceStart ->
             (0..durationDays).map(occurrenceStart::plusDays)
         }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.domain.reminder.ReminderDispatcherTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.631Z" hostname="J6P0GGV20P" time="0.008">
+  <properties/>
+  <testcase name="dispatch skips a trigger older than the recovery window" classname="com.tiandili.calendar.domain.reminder.ReminderDispatcherTest" time="0.003"/>
+  <testcase name="dispatch claims a scheduled job and marks it fired after notification" classname="com.tiandili.calendar.domain.reminder.ReminderDispatcherTest" time="0.001"/>
+  <testcase name="dispatch marks a claimed job blocked when notifications are disabled" classname="com.tiandili.calendar.domain.reminder.ReminderDispatcherTest" time="0.001"/>
+  <testcase name="dispatch releases a claimed job when notification publishing fails" classname="com.tiandili.calendar.domain.reminder.ReminderDispatcherTest" time="0.001"/>
+  <testcase name="dispatch labels a trigger missed within the recovery window" classname="com.tiandili.calendar.domain.reminder.ReminderDispatcherTest" time="0.001"/>
+  <testcase name="alarm recovery only rings within five minutes while schedules keep twenty four hours" classname="com.tiandili.calendar.domain.reminder.ReminderDispatcherTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

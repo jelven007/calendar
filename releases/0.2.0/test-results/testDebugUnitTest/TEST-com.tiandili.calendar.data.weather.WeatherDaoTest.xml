@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.weather.WeatherDaoTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.156Z" hostname="J6P0GGV20P" time="0.052">
+  <properties/>
+  <testcase name="saved city history is capped at ten including the current city" classname="com.tiandili.calendar.data.weather.WeatherDaoTest" time="0.019"/>
+  <testcase name="forecast segments replace together without removing air quality" classname="com.tiandili.calendar.data.weather.WeatherDaoTest" time="0.02"/>
+  <testcase name="selecting a city clears the previous selection" classname="com.tiandili.calendar.data.weather.WeatherDaoTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

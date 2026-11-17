@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.platform.alarm.AlarmSoundServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:40.113Z" hostname="J6P0GGV20P" time="1.687">
+  <properties/>
+  <testcase name="empty service start cannot ring and stop action removes foreground state" classname="com.tiandili.calendar.platform.alarm.AlarmSoundServiceTest" time="1.549"/>
+  <testcase name="alarm start creates media foreground notification with working stop action" classname="com.tiandili.calendar.platform.alarm.AlarmSoundServiceTest" time="0.138"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Robolectric] WARN: Android SDK 36 requires Java 21 (have Java 17). Tests won't be run on SDK 36 unless explicitly requested.
+[Robolectric] WARN: Android SDK 37 requires Java 21 (have Java 17). Tests won't be run on SDK 37 unless explicitly requested.
+]]></system-err>
+</testsuite>

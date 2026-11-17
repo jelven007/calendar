@@ -1,0 +1,51 @@
+{
+  "testDebugUnitTest": {
+    "suites": 64,
+    "tests": 272,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testWidgetRendering": {
+    "suites": 1,
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testUiRendering": {
+    "suites": 1,
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testAlarmApi26": {
+    "suites": 1,
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testAlarmApi35": {
+    "suites": 1,
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testStartupApi26": {
+    "suites": 1,
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testStartupApi35": {
+    "suites": 1,
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

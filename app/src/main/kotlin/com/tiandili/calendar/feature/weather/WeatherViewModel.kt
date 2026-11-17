@@ -24,6 +24,7 @@ data class WeatherUiState(
     val searchResults: List<City> = emptyList(),
     val isSearching: Boolean = false,
     val message: String? = null,
+    val savedCities: List<City> = emptyList(),
 )
 
 class WeatherViewModel(
@@ -35,10 +36,14 @@ class WeatherViewModel(
     init {
         viewModelScope.launch {
             repository.observeWeather().collectLatest { snapshot ->
+                val cities = try { repository.savedCities() }
+                    catch (error: kotlinx.coroutines.CancellationException) { throw error }
+                    catch (_: Exception) { emptyList() }
                 mutableUiState.update {
                     it.copy(
                         snapshot = snapshot,
                         isCityPickerOpen = snapshot == null || it.isCityPickerOpen,
+                        savedCities = cities,
                     )
                 }
             }

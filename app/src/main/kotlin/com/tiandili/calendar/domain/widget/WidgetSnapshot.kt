@@ -105,6 +105,7 @@ class WidgetSnapshotComposer(private val almanac: AlmanacEngine) {
         now: Instant,
         deviceZone: ZoneId,
     ): WidgetScheduleSummary? {
+        if (!schedule.calendarEligible) return null
         val timing = schedule.timing
         val eventZone = (timing as? ScheduleTiming.Timed)?.zoneId ?: deviceZone
         val today = now.atZone(eventZone).toLocalDate()

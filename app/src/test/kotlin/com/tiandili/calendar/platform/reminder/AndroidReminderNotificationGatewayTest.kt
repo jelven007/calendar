@@ -21,6 +21,17 @@ import org.robolectric.shadows.ShadowNotificationManager
 @Config(sdk = [33])
 class AndroidReminderNotificationGatewayTest {
 
+    @Test
+    fun `alarm notification starts the ringing foreground service`() {
+        shadowOf(application).grantPermissions(Manifest.permission.POST_NOTIFICATIONS)
+        assertThat(gateway.post(sampleNotification().copy(
+            kind = com.tiandili.calendar.domain.schedule.ScheduleKind.ALARM))).isTrue()
+        val started = shadowOf(application).nextStartedService
+        assertThat(started?.component?.className)
+            .isEqualTo("com.tiandili.calendar.platform.alarm.AlarmSoundService")
+        assertThat(started?.getLongExtra(EXTRA_REMINDER_JOB_ID, 0)).isEqualTo(JOB_ID)
+    }
+
     private lateinit var application: Application
     private lateinit var notificationManager: NotificationManager
     private lateinit var gateway: AndroidReminderNotificationGateway

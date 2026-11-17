@@ -8,6 +8,8 @@ data class MonthCell(
     val date: LocalDate,
     val isInDisplayedMonth: Boolean,
     val label: String? = null,
+    val isFestival: Boolean = false,
+    val isSolarTerm: Boolean = false,
 )
 
 class CalendarRangeException :
@@ -25,7 +27,8 @@ fun buildMonthGrid(
     val leadingDays = (firstOfMonth.dayOfWeek.value - firstDayOfWeek.value + 7) % 7
     val gridStart = firstOfMonth.minusDays(leadingDays.toLong())
 
-    return List(42) { index ->
+    val cellCount = ((leadingDays + yearMonth.lengthOfMonth() + 6) / 7) * 7
+    return List(cellCount) { index ->
         val date = gridStart.plusDays(index.toLong())
         MonthCell(
             date = date,

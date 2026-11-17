@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.platform.reminder.CoroutineReminderRuntimeTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:21.632Z" hostname="J6P0GGV20P" time="0.015">
+  <properties/>
+  <testcase name="ordinary reconciliation keeps scheduled jobs intact" classname="com.tiandili.calendar.platform.reminder.CoroutineReminderRuntimeTest" time="0.003"/>
+  <testcase name="dispatch runs in the application scope and completes afterward" classname="com.tiandili.calendar.platform.reminder.CoroutineReminderRuntimeTest" time="0.003"/>
+  <testcase name="runtime completes a broadcast when work fails" classname="com.tiandili.calendar.platform.reminder.CoroutineReminderRuntimeTest" time="0.002"/>
+  <testcase name="cancellation reconciliation waits for an in progress notification dispatch" classname="com.tiandili.calendar.platform.reminder.CoroutineReminderRuntimeTest" time="0.005"/>
+  <testcase name="recovery prepares persisted jobs before reconciliation" classname="com.tiandili.calendar.platform.reminder.CoroutineReminderRuntimeTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

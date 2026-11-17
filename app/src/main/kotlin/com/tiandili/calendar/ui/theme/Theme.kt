@@ -6,6 +6,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import com.tiandili.calendar.data.settings.ThemeMode
+import com.tiandili.calendar.data.settings.CalendarAccent
+import androidx.compose.ui.graphics.Color
 
 private val LightColors = lightColorScheme(
     primary = Jade,
@@ -49,11 +51,20 @@ private object ColorTokens {
 fun TiandiliTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     themeMode: ThemeMode = ThemeMode.SYSTEM,
+    accent: CalendarAccent = CalendarAccent.RED,
     content: @Composable () -> Unit,
 ) {
+    val dark = themeMode == ThemeMode.DARK || (themeMode == ThemeMode.SYSTEM && darkTheme)
+    val primary = when (accent) {
+        CalendarAccent.RED -> if (dark) DarkCinnabar else Color(0xFFC83D39)
+        CalendarAccent.JADE -> if (dark) DarkJade else Jade
+        CalendarAccent.BLUE -> if (dark) DarkMineralBlue else Color(0xFF366FA9)
+    }
     MaterialTheme(
-        colorScheme = if (themeMode == ThemeMode.DARK ||
-            (themeMode == ThemeMode.SYSTEM && darkTheme)) DarkColors else LightColors,
+        colorScheme = (if (dark) DarkColors else LightColors).copy(primary = primary,
+            background = if (dark) Night else Color(0xFFF5F5F5),
+            surface = if (dark) NightSurface else Color.White,
+            onPrimary = if (dark) Night else Color.White),
         typography = TiandiliTypography,
         content = content,
     )

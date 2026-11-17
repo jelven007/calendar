@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.schedule.ScheduleDaoTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:16.763Z" hostname="J6P0GGV20P" time="0.192">
+  <properties/>
+  <testcase name="reconciliation query returns pending and cancel pending jobs only" classname="com.tiandili.calendar.data.schedule.ScheduleDaoTest" time="0.017"/>
+  <testcase name="updating a schedule replaces the stored values for the same id" classname="com.tiandili.calendar.data.schedule.ScheduleDaoTest" time="0.016"/>
+  <testcase name="saving a series stores its rule and pending reminder in one transaction" classname="com.tiandili.calendar.data.schedule.ScheduleDaoTest" time="0.016"/>
+  <testcase name="date window query includes active recurring candidates only" classname="com.tiandili.calendar.data.schedule.ScheduleDaoTest" time="0.026"/>
+  <testcase name="recovery resets recoverable jobs but preserves pending cancellation" classname="com.tiandili.calendar.data.schedule.ScheduleDaoTest" time="0.046"/>
+  <testcase name="reminder transition only succeeds from the expected status" classname="com.tiandili.calendar.data.schedule.ScheduleDaoTest" time="0.023"/>
+  <testcase name="schedule exception cancels one occurrence without deleting its series" classname="com.tiandili.calendar.data.schedule.ScheduleDaoTest" time="0.017"/>
+  <testcase name="soft delete retains the row but excludes it from active lookup" classname="com.tiandili.calendar.data.schedule.ScheduleDaoTest" time="0.031"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

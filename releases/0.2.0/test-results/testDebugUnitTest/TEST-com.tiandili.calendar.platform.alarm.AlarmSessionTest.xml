@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.platform.alarm.AlarmSessionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:20.151Z" hostname="J6P0GGV20P" time="0.001">
+  <properties/>
+  <testcase name="stopping and replacing the alarm releases sound once and ignores unrelated cancellation" classname="com.tiandili.calendar.platform.alarm.AlarmSessionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

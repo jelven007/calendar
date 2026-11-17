@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.domain.reminder.NextReminderPlannerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.620Z" hostname="J6P0GGV20P" time="0.001">
+  <properties/>
+  <testcase name="all day series plans its next reminder at nine in the morning" classname="com.tiandili.calendar.domain.reminder.NextReminderPlannerTest" time="0.001"/>
+  <testcase name="series with exhausted count has no next reminder" classname="com.tiandili.calendar.domain.reminder.NextReminderPlannerTest" time="0.0"/>
+  <testcase name="monthly series keeps its original month end anchor" classname="com.tiandili.calendar.domain.reminder.NextReminderPlannerTest" time="0.0"/>
+  <testcase name="daily timed series plans the next occurrence with the same lead time" classname="com.tiandili.calendar.domain.reminder.NextReminderPlannerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

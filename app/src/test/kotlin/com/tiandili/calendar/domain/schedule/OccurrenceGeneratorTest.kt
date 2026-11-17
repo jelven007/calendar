@@ -9,6 +9,30 @@ import org.junit.Test
 class OccurrenceGeneratorTest {
 
     @Test
+    fun `yearly lunar new year follows the lunar month day instead of Gregorian anchor`() {
+        val dates = OccurrenceGenerator.generateDates(
+            LocalDate.of(2025, 1, 29),
+            RecurrenceRule(RecurrenceFrequency.YEARLY, lunarMonth = 1, lunarDay = 1),
+            LocalDate.of(2026, 1, 1)..LocalDate.of(2026, 12, 31),
+        )
+        assertThat(dates).containsExactly(LocalDate.of(2026, 2, 17))
+    }
+
+    @Test
+    fun `lunar day thirty clamps to a short month and leap month falls back to regular month`() {
+        val dates = OccurrenceGenerator.generateDates(
+            LocalDate.of(2025, 7, 25),
+            RecurrenceRule(RecurrenceFrequency.YEARLY, lunarMonth = -6, lunarDay = 30),
+            LocalDate.of(2026, 1, 1)..LocalDate.of(2026, 12, 31),
+        )
+        val lunar = com.nlf.calendar.Solar.fromYmd(
+            dates.single().year, dates.single().monthValue, dates.single().dayOfMonth).lunar
+        assertThat(lunar.month).isEqualTo(6)
+        assertThat(lunar.day).isEqualTo(
+            com.nlf.calendar.LunarMonth.fromYm(2026, 6).dayCount)
+    }
+
+    @Test
     fun `monthly recurrence clamps the anchor day to the end of short months`() {
         val occurrences = OccurrenceGenerator.generateDates(
             startDate = LocalDate.of(2025, 1, 31),

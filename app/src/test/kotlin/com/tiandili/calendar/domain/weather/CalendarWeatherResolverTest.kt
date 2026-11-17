@@ -22,7 +22,7 @@ class CalendarWeatherResolverTest {
         Instant.parse("2025-01-01T16:30:00Z"),
         ZoneId.of("UTC"),
     )
-    private val forecasts = (1L..9L).map { day ->
+    private val forecasts = (1L..17L).map { day ->
         DailyForecast(
             date = LocalDate.of(2025, 1, 1).plusDays(day - 1),
             weatherCode = 2,
@@ -55,12 +55,12 @@ class CalendarWeatherResolverTest {
     }
 
     @Test
-    fun `weather window includes exactly seven city local dates`() {
+    fun `weather window includes exactly fifteen city local dates`() {
         assertThat(
             CalendarWeatherResolver.resolve(
                 city = city,
                 forecasts = forecasts,
-                date = LocalDate.of(2025, 1, 8),
+                date = LocalDate.of(2025, 1, 16),
                 clock = clock,
             ),
         ).isInstanceOf(CalendarWeatherResult.Available::class.java)
@@ -68,7 +68,7 @@ class CalendarWeatherResolverTest {
             CalendarWeatherResolver.resolve(
                 city = city,
                 forecasts = forecasts,
-                date = LocalDate.of(2025, 1, 9),
+                date = LocalDate.of(2025, 1, 17),
                 clock = clock,
             ),
         ).isEqualTo(CalendarWeatherResult.NotAvailable)

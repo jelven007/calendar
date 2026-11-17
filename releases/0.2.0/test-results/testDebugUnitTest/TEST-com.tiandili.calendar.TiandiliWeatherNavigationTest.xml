@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.TiandiliWeatherNavigationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:11.117Z" hostname="J6P0GGV20P" time="0.281">
+  <properties/>
+  <testcase name="selected calendar day shows current city daily weather summary" classname="com.tiandili.calendar.TiandiliWeatherNavigationTest" time="0.156"/>
+  <testcase name="weather destination renders the provided weather feature" classname="com.tiandili.calendar.TiandiliWeatherNavigationTest" time="0.125"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

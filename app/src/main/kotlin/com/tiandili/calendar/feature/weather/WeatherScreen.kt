@@ -25,6 +25,7 @@ import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material.icons.outlined.NightsStay
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.Thunderstorm
 import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material.icons.outlined.WbSunny
@@ -87,6 +88,7 @@ fun WeatherScreen(
     onSelectCity: (City) -> Unit = {},
     onUseCurrentLocation: () -> Unit = {},
     onOpenAttribution: () -> Unit = {},
+    onShareWeather: (String) -> Unit = {},
 ) {
     if (state.isCityPickerOpen || state.snapshot == null) {
         CityPicker(
@@ -102,6 +104,7 @@ fun WeatherScreen(
         return
     }
 
+    WeatherScene(isDay = state.snapshot.current?.value?.isDay ?: true) {
     PullToRefreshBox(
         isRefreshing = state.isRefreshing,
         onRefresh = onRefresh,
@@ -110,7 +113,7 @@ fun WeatherScreen(
         androidx.compose.foundation.lazy.LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(Color.Transparent)
                 .testTag("weather_content")
                 .padding(horizontal = 16.dp),
         ) {
@@ -120,7 +123,16 @@ fun WeatherScreen(
                     isRefreshing = state.isRefreshing,
                     onOpenCityPicker = onOpenCityPicker,
                     onRefresh = onRefresh,
+                    onShare = { onShareWeather(weatherShareText(state.snapshot, now)) },
                 )
+            }
+            if (state.savedCities.size > 1) item {
+                Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState())) {
+                    state.savedCities.forEach { city ->
+                        TextButton(onClick = { onSelectCity(city) }) {
+                            Text(if (city.id == state.snapshot.city.id) "● ${city.name}" else city.name) }
+                    }
+                }
             }
             state.message?.let { message ->
                 item {
@@ -138,6 +150,7 @@ fun WeatherScreen(
                     now = now,
                 )
             }
+            item { TodayTomorrowSection(state.snapshot, now) }
             item {
                 HourlySection(
                     city = state.snapshot.city,
@@ -150,6 +163,7 @@ fun WeatherScreen(
                     city = state.snapshot.city,
                     segment = state.snapshot.daily,
                     now = now,
+                    air = state.snapshot.airQuality?.value,
                 )
             }
             item {
@@ -168,6 +182,7 @@ fun WeatherScreen(
                 }
             }
         }
+    }
     }
 }
 
@@ -325,6 +340,7 @@ private fun WeatherHeader(
     isRefreshing: Boolean,
     onOpenCityPicker: () -> Unit,
     onRefresh: () -> Unit,
+    onShare: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -365,6 +381,8 @@ private fun WeatherHeader(
                 )
             }
         }
+        IconButton(onClick = onShare) {
+            Icon(Icons.Outlined.Share, contentDescription = "分享天气") }
     }
 }
 
@@ -403,7 +421,7 @@ private fun CurrentWeatherSection(
             WeatherConditionIcon(
                 symbol = condition.symbol,
                 contentDescription = condition.description,
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier.size(42.dp),
                 tint = MaterialTheme.colorScheme.secondary,
             )
             Spacer(Modifier.width(16.dp))
@@ -420,8 +438,8 @@ private fun CurrentWeatherSection(
             }
             Text(
                 text = "${current.temperatureC.roundToInt()}°",
-                fontSize = 58.sp,
-                lineHeight = 64.sp,
+                fontSize = 84.sp,
+                lineHeight = 90.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier.semantics {
                     contentDescription =
@@ -429,18 +447,35 @@ private fun CurrentWeatherSection(
                 },
             )
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 18.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            CurrentMetric("湿度", "${current.relativeHumidityPercent}%")
-            CurrentMetric("风速", "${current.windSpeedKph.roundToInt()} km/h")
-            CurrentMetric("降水", "${current.precipitationMm} mm")
-        }
+        Text("${windDescription(current)} · 湿度 ${current.relativeHumidityPercent}%",
+            modifier = Modifier.padding(top = 12.dp), style = MaterialTheme.typography.bodyLarge)
+        val air = snapshot.airQuality?.value
+        Text(air?.let { "${usAqiLabel(it.usAqi)} · US AQI ${it.usAqi}" } ?: "暂无当前空气质量",
+            modifier = Modifier.padding(top = 8.dp))
     }
     HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+}
+
+@Composable
+private fun TodayTomorrowSection(snapshot: WeatherSnapshot, now: Instant) {
+    val today = now.atZone(snapshot.city.zoneId).toLocalDate()
+    Row(Modifier.fillMaxWidth().padding(vertical = 14.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        (0L..1L).forEach { offset ->
+            val day = snapshot.daily?.value?.firstOrNull { it.date == today.plusDays(offset) }
+            Column(Modifier.weight(1f)) {
+                Text("${if (offset == 0L) "今天" else "明天"} · ${
+                    day?.let { WeatherCodeMapper.conditionFor(it.weatherCode, true).description } ?: "暂无预报"}")
+                Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(day?.let { "${it.maxTemperatureC.roundToInt()}/${it.minTemperatureC.roundToInt()}℃" } ?: "—",
+                        style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                    day?.let { WeatherConditionIcon(WeatherCodeMapper.conditionFor(it.weatherCode, true).symbol,
+                        "天气图标", Modifier.size(28.dp), MaterialTheme.colorScheme.secondary) }
+                }
+            }
+        }
+    }
+    HorizontalDivider()
 }
 
 @Composable
@@ -473,48 +508,7 @@ private fun HourlySection(
     val hours = segment.value
         .filterNot { it.time.toInstant().isBefore(now) }
         .take(24)
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-    ) {
-        hours.forEachIndexed { index, hour ->
-            val condition = WeatherCodeMapper.conditionFor(hour.weatherCode, isDay = true)
-            Column(
-                modifier = Modifier.width(56.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = if (index == 0) {
-                        "现在"
-                    } else {
-                        hour.time.format(DateTimeFormatter.ofPattern("HH:mm"))
-                    },
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                WeatherConditionIcon(
-                    symbol = condition.symbol,
-                    contentDescription = condition.description,
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .size(26.dp),
-                    tint = MaterialTheme.colorScheme.secondary,
-                )
-                Text(
-                    text = "${hour.temperatureC.roundToInt()}°",
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                    text = "${hour.precipitationProbabilityPercent}%",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            }
-        }
-    }
+    HourlyTemperatureChart(hours)
     HorizontalDivider(color = MaterialTheme.colorScheme.outline)
 }
 
@@ -523,47 +517,17 @@ private fun DailySection(
     city: City,
     segment: CachedWeatherSegment<List<DailyForecast>>?,
     now: Instant,
+    air: AirQuality?,
 ) {
-    SectionHeading("未来 7 日")
+    val today = now.atZone(city.zoneId).toLocalDate()
+    val days = segment?.value.orEmpty().filter { it.date in today..today.plusDays(14) }.take(15)
+    SectionHeading("未来 ${if (segment == null) 15 else days.size} 日")
     if (segment == null) {
         MissingSectionText()
         return
     }
     FreshnessText(city, segment, WeatherSegmentType.DAILY, now)
-    segment.value.take(7).forEach { day ->
-        val condition = WeatherCodeMapper.conditionFor(day.weatherCode, isDay = true)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = day.date.format(DateTimeFormatter.ofPattern("M月d日 E")),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.width(96.dp),
-            )
-            WeatherConditionIcon(
-                symbol = condition.symbol,
-                contentDescription = condition.description,
-                modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.secondary,
-            )
-            Text(
-                text = condition.description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .weight(1f),
-            )
-            Text(
-                text = "${day.minTemperatureC.roundToInt()}–" +
-                    "${day.maxTemperatureC.roundToInt()}℃",
-                style = MaterialTheme.typography.titleMedium,
-            )
-        }
-    }
+    DailyTemperatureChart(days, air)
     HorizontalDivider(color = MaterialTheme.colorScheme.outline)
 }
 
@@ -658,7 +622,7 @@ private fun FreshnessText(
 }
 
 @Composable
-private fun WeatherConditionIcon(
+internal fun WeatherConditionIcon(
     symbol: WeatherSymbol,
     contentDescription: String,
     modifier: Modifier,
@@ -699,7 +663,7 @@ private fun usAqiLabel(value: Int): String = when (value) {
 }
 
 private fun usAqiColor(value: Int): Color = when (value) {
-    in 0..50 -> com.tiandili.calendar.ui.theme.Jade
-    in 51..100 -> MineralGold
-    else -> Cinnabar
+    in 0..50 -> Color(0xFFB1EA98)
+    in 51..100 -> Color(0xFFFFDB86)
+    else -> Color(0xFFFFB5AE)
 }

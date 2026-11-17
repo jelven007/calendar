@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.backup.BackupCodecTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:11.532Z" hostname="J6P0GGV20P" time="0.872">
+  <properties/>
+  <testcase name="invalid reminder offset is rejected" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.038"/>
+  <testcase name="foreign application backup is rejected" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.002"/>
+  <testcase name="duplicate ids cannot ambiguously associate exceptions" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.001"/>
+  <testcase name="out of range calendar dates are rejected" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.005"/>
+  <testcase name="new metadata and lunar birthday survive backup along with local profile" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.003"/>
+  <testcase name="trailing JSON and unknown fields are rejected" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.003"/>
+  <testcase name="malformed dates are rejected with a readable format error" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.001"/>
+  <testcase name="version two round trip preserves schedules rules exceptions cities and settings" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.002"/>
+  <testcase name="new user week begins on Sunday" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.001"/>
+  <testcase name="export refuses a backup too large for the importer" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.811"/>
+  <testcase name="future version is rejected before importing anything" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.003"/>
+  <testcase name="exception must reference an included series" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.001"/>
+  <testcase name="actual format one text imports with compatible metadata defaults" classname="com.tiandili.calendar.data.backup.BackupCodecTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[System.logW: A resource failed to call close. 
+System.logW: A resource failed to call close. 
+]]></system-err>
+</testsuite>

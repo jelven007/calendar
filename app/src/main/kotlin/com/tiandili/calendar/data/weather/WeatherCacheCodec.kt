@@ -26,6 +26,7 @@ class WeatherCacheCodec(moshi: Moshi) {
             weatherCode = value.weatherCode,
             windSpeedKph = value.windSpeedKph,
             isDay = value.isDay,
+            windDirectionDegrees = value.windDirectionDegrees,
         ),
     )
 
@@ -40,6 +41,7 @@ class WeatherCacheCodec(moshi: Moshi) {
             weatherCode = payload.weatherCode,
             windSpeedKph = payload.windSpeedKph,
             isDay = payload.isDay,
+            windDirectionDegrees = payload.windDirectionDegrees,
         )
     }
 
@@ -109,6 +111,8 @@ class WeatherCacheCodec(moshi: Moshi) {
             pm10 = value.pm10MicrogramsPerCubicMeter,
             ozone = value.ozoneMicrogramsPerCubicMeter,
             nitrogenDioxide = value.nitrogenDioxideMicrogramsPerCubicMeter,
+            hourlyUsAqi = value.hourlyUsAqi.map {
+                HourlyAirQualityPayload(it.time.toInstant().toEpochMilli(), it.usAqi) },
         ),
     )
 
@@ -121,6 +125,8 @@ class WeatherCacheCodec(moshi: Moshi) {
             pm10MicrogramsPerCubicMeter = payload.pm10,
             ozoneMicrogramsPerCubicMeter = payload.ozone,
             nitrogenDioxideMicrogramsPerCubicMeter = payload.nitrogenDioxide,
+            hourlyUsAqi = payload.hourlyUsAqi.map {
+                com.tiandili.calendar.domain.weather.HourlyAirQuality(it.timeEpochMillis.atZone(zoneId), it.usAqi) },
         )
     }
 
@@ -138,6 +144,7 @@ data class CurrentWeatherPayload(
     val weatherCode: Int,
     val windSpeedKph: Double,
     val isDay: Boolean,
+    val windDirectionDegrees: Double? = null,
 )
 
 @JsonClass(generateAdapter = true)
@@ -178,4 +185,8 @@ data class AirQualityPayload(
     val pm10: Double,
     val ozone: Double,
     val nitrogenDioxide: Double,
+    val hourlyUsAqi: List<HourlyAirQualityPayload> = emptyList(),
 )
+
+@JsonClass(generateAdapter = true)
+data class HourlyAirQualityPayload(val timeEpochMillis: Long, val usAqi: Int)

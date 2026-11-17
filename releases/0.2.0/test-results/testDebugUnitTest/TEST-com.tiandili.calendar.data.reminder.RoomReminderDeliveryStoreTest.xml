@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:16.179Z" hostname="J6P0GGV20P" time="0.217">
+  <properties/>
+  <testcase name="delivery outcomes only transition a claimed reminder" classname="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" time="0.025"/>
+  <testcase name="skipping a stale recurring reminder jumps to the next future occurrence" classname="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" time="0.027"/>
+  <testcase name="disabled or completed records cannot claim old scheduled broadcasts" classname="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" time="0.023"/>
+  <testcase name="claim atomically returns one scheduled reminder for an active schedule" classname="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" time="0.021"/>
+  <testcase name="delivery failure releases a claimed reminder for retry" classname="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" time="0.032"/>
+  <testcase name="claim rejects a reminder whose schedule was deleted" classname="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" time="0.023"/>
+  <testcase name="firing a recurring reminder queues its next occurrence" classname="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" time="0.028"/>
+  <testcase name="ringing authorization follows claim firing and cancellation state" classname="com.tiandili.calendar.data.reminder.RoomReminderDeliveryStoreTest" time="0.038"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

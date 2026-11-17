@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.settings.ReleaseUpdateTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:18:43.145Z" hostname="J6P0GGV20P" time="0.112">
+  <properties/>
+  <testcase name="failed network check can be retried" classname="com.tiandili.calendar.feature.settings.ReleaseUpdateTest" time="0.109"/>
+  <testcase name="newer incompatible release does not offer an install download" classname="com.tiandili.calendar.feature.settings.ReleaseUpdateTest" time="0.001"/>
+  <testcase name="foreign application unsafe URL and malformed version are rejected" classname="com.tiandili.calendar.feature.settings.ReleaseUpdateTest" time="0.001"/>
+  <testcase name="old published metadata derives a trusted download and compares version code" classname="com.tiandili.calendar.feature.settings.ReleaseUpdateTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

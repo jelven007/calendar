@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlin.math.min
 
 class CalendarViewModel(
-    clock: Clock,
+    private val clock: Clock,
     private val zoneId: ZoneId,
     private var firstDayOfWeek: DayOfWeek,
     private val almanacEngine: AlmanacEngine,
@@ -42,6 +42,7 @@ class CalendarViewModel(
     }
 
     fun selectDate(date: LocalDate) {
+        if (date.year !in 1901..2099) return
         val displayedMonth = YearMonth.from(date)
         _uiState.value = _uiState.value.copy(
             displayedMonth = displayedMonth,
@@ -60,11 +61,12 @@ class CalendarViewModel(
     }
 
     fun returnToToday() {
-        selectDate(today)
+        selectDate(clock.instant().atZone(zoneId).toLocalDate())
     }
 
     private fun moveMonth(offset: Long) {
         val targetMonth = _uiState.value.displayedMonth.plusMonths(offset)
+        if (targetMonth.year !in 1901..2099) return
         val targetDay = min(_uiState.value.selectedDate.dayOfMonth, targetMonth.lengthOfMonth())
         selectDate(targetMonth.atDay(targetDay))
     }
@@ -74,7 +76,9 @@ class CalendarViewModel(
             .month(yearMonth, zoneId)
             .associateBy { it.date }
         return buildMonthGrid(yearMonth, firstDayOfWeek).map { cell ->
-            cell.copy(label = summariesByDate[cell.date]?.displayLabel)
+            val summary = summariesByDate[cell.date]
+            cell.copy(label = summary?.displayLabel, isFestival = summary?.festivals?.isNotEmpty() == true,
+                isSolarTerm = summary?.solarTerm != null)
         }
     }
 }

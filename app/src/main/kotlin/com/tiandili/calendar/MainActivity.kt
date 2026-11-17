@@ -42,6 +42,7 @@ import com.tiandili.calendar.platform.weather.AndroidCurrentLocationProvider
 import com.tiandili.calendar.platform.reminder.EXTRA_SCHEDULE_ID
 import com.tiandili.calendar.platform.background.onForeground
 import com.tiandili.calendar.domain.schedule.Schedule
+import com.tiandili.calendar.domain.schedule.ScheduleKind
 import com.tiandili.calendar.ui.theme.TiandiliTheme
 import java.time.Clock
 import java.time.DayOfWeek
@@ -82,7 +83,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val app = application as TiandiliApplication
             val preferences by app.userPreferences.collectAsStateWithLifecycle()
-            TiandiliTheme(themeMode = preferences.themeMode) {
+            TiandiliTheme(themeMode = preferences.themeMode, accent = preferences.accent) {
                 AppContent(
                     scheduleRepository = app.scheduleRepository,
                     weatherRepository = app.weatherRepository,
@@ -210,7 +211,7 @@ private fun AppContent(
             CalendarViewModel(
                 clock = clock,
                 zoneId = zoneId,
-                firstDayOfWeek = DayOfWeek.MONDAY,
+                firstDayOfWeek = preferences.firstDayOfWeek,
                 almanacEngine = LunarJavaAlmanacEngine(),
             )
         },
@@ -242,17 +243,27 @@ private fun AppContent(
         },
     )
     val scheduleListState by scheduleListViewModel.uiState.collectAsStateWithLifecycle()
+    val calendarState by calendarViewModel.uiState.collectAsStateWithLifecycle()
     val weatherState by weatherViewModel.uiState.collectAsStateWithLifecycle()
+    val cancelledOccurrences by remember(scheduleRepository) {
+        scheduleRepository.observeCancelledOccurrences()
+    }.collectAsStateWithLifecycle(initialValue = emptyMap())
     var requestedSchedule by remember { mutableStateOf<Schedule?>(null) }
     var scheduleUnavailable by remember { mutableStateOf(false) }
     var resolvedSequence by remember { mutableLongStateOf(0L) }
+    var requestedCategory by remember { mutableStateOf<ScheduleKind?>(null) }
+    var newRecordSequence by remember { mutableLongStateOf(0L) }
+    var scheduleEditorVisible by remember { mutableStateOf(false) }
+    val scope = androidx.compose.runtime.rememberCoroutineScope()
     LaunchedEffect(navigationRequest) {
         requestedSchedule = null
         scheduleUnavailable = false
+        requestedCategory = null
+        newRecordSequence = 0L
         navigationRequest?.scheduleId?.let { id ->
             requestedSchedule = scheduleRepository.get(id)
             scheduleUnavailable = requestedSchedule == null
-            resolvedSequence = navigationRequest.sequence
+            resolvedSequence++
         }
     }
     TiandiliApp(
@@ -261,6 +272,27 @@ private fun AppContent(
         weatherSnapshot = weatherState.snapshot,
         clock = clock,
         navigationRequest = navigationRequest,
+        preferences = preferences,
+        cancelledOccurrences = cancelledOccurrences,
+        onRecordsRequested = { kind, create ->
+            requestedSchedule = null
+            scheduleUnavailable = false
+            requestedCategory = kind
+            newRecordSequence = if (create) newRecordSequence + 1 else 0L
+        },
+        onRecordRequested = { id ->
+            requestedCategory = null
+            newRecordSequence = 0L
+            scope.launch {
+                requestedSchedule = scheduleRepository.get(id)
+                scheduleUnavailable = requestedSchedule == null
+                resolvedSequence++
+            }
+        },
+        onSetEnabled = scheduleListViewModel::setEnabled,
+        onSetCompleted = scheduleListViewModel::setCompleted,
+        recordError = scheduleListState.error,
+        scheduleEditorVisible = scheduleEditorVisible,
         scheduleContent = {
             ScheduleFeature(
                 listViewModel = scheduleListViewModel,
@@ -269,9 +301,14 @@ private fun AppContent(
                 requestedSchedule = requestedSchedule,
                 externalRequestSequence = resolvedSequence,
                 scheduleUnavailable = scheduleUnavailable,
+                category = requestedCategory,
+                newRecordSequence = newRecordSequence,
+                selectedDate = calendarState.selectedDate,
+                onEditorVisibilityChanged = { scheduleEditorVisible = it },
             )
         },
         weatherContent = {
+            val context = androidx.compose.ui.platform.LocalContext.current
             WeatherScreen(
                 state = weatherState,
                 now = clock.instant(),
@@ -291,9 +328,12 @@ private fun AppContent(
                     }
                 },
                 onOpenAttribution = onOpenWeatherAttribution,
+                onShareWeather = { text ->
+                    startWeatherShare(context, text)
+                },
             )
         },
-        settingsContent = { openWeather ->
+        settingsContent = { openWeather, closeSettings ->
             SettingsFeature(
                 viewModel = settingsViewModel,
                 currentCity = weatherState.snapshot?.city?.let { city ->
@@ -305,9 +345,15 @@ private fun AppContent(
                 onExactAlarms = onExactAlarms,
                 onOpenAttribution = onOpenWeatherAttribution,
                 onOpenLicense = onOpenWeatherLicense,
+                onBack = closeSettings,
             )
         },
     )
+}
+
+private fun startWeatherShare(context: android.content.Context, text: String) {
+    val send = Intent(Intent.ACTION_SEND).apply { type = "text/plain"; putExtra(Intent.EXTRA_TEXT, text) }
+    context.startActivity(Intent.createChooser(send, "分享天气").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
 }
 
 private fun <T : ViewModel> simpleViewModelFactory(

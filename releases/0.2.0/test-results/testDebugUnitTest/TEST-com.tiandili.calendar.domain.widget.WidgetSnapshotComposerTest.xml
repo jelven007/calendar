@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.658Z" hostname="J6P0GGV20P" time="0.044">
+  <properties/>
+  <testcase name="offline snapshot keeps date lunar and almanac" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.003"/>
+  <testcase name="private default excludes title and schedule identifier" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.002"/>
+  <testcase name="ongoing multi day item remains visible" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.001"/>
+  <testcase name="next schedule compares timed instants across zones and excludes ended items" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.0"/>
+  <testcase name="timezone change composes new local calendar date" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.001"/>
+  <testcase name="city without current cache has no weather or attribution" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.001"/>
+  <testcase name="next recurrence skips cancelled anchor and honors count" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.034"/>
+  <testcase name="weather preserves stale age source and today high low" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.001"/>
+  <testcase name="expired weather is labelled without inventing missing daily range" classname="com.tiandili.calendar.domain.widget.WidgetSnapshotComposerTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

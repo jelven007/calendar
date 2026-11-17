@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.domain.weather.WeatherCodeMapperTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.657Z" hostname="J6P0GGV20P" time="0.0">
+  <properties/>
+  <testcase name="clear weather uses different day and night symbols" classname="com.tiandili.calendar.domain.weather.WeatherCodeMapperTest" time="0.0"/>
+  <testcase name="unknown weather code remains visibly unknown" classname="com.tiandili.calendar.domain.weather.WeatherCodeMapperTest" time="0.0"/>
+  <testcase name="wmo precipitation and storm codes map to Chinese conditions" classname="com.tiandili.calendar.domain.weather.WeatherCodeMapperTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Tiandili Local Release, O=Tiandili, C=CN
+Signer #1 certificate SHA-256 digest: b80e3f9ddf83d3f70b9e7c7a246adadb124885899174a86776123ca9e50f70bc
+Signer #1 certificate SHA-1 digest: bdc2b9d3adeba89761d0b6686e624d8e0a7deb5e
+Signer #1 certificate MD5 digest: 22522534d31f1c778cc3392c5b591caa
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 3072
+Signer #1 public key SHA-256 digest: 68433f2ab8f4878e39e6553532b8ef19a17e7286eecc59e6e6c9f0b68ab2669e
+Signer #1 public key SHA-1 digest: cff2fc797860f0a9a1e1ab2520e46bd70082d946
+Signer #1 public key MD5 digest: bd776cddcef3ea268f657bd6cdb837b9

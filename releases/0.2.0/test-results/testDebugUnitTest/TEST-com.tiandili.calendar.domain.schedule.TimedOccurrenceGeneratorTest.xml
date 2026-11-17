@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.domain.schedule.TimedOccurrenceGeneratorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.652Z" hostname="J6P0GGV20P" time="0.001">
+  <properties/>
+  <testcase name="ambiguous local time uses the earlier offset" classname="com.tiandili.calendar.domain.schedule.TimedOccurrenceGeneratorTest" time="0.0"/>
+  <testcase name="nonexistent local time advances by the daylight saving gap" classname="com.tiandili.calendar.domain.schedule.TimedOccurrenceGeneratorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

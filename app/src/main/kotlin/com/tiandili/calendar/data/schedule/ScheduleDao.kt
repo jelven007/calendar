@@ -20,6 +20,17 @@ abstract class ScheduleDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     protected abstract suspend fun insertReminder(reminder: ReminderOutboxEntity)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    protected abstract suspend fun insertReminderIfAbsent(reminder: ReminderOutboxEntity): Long
+
+    @Query("""UPDATE reminder_outbox SET status = 'PENDING', last_error = NULL
+        WHERE schedule_id = :scheduleId AND occurrence_epoch_millis = :occurrence
+          AND trigger_at_epoch_millis = :trigger
+          AND status IN ('CANCEL_PENDING', 'CANCELLED')""")
+    protected abstract suspend fun reviveCancelledReminder(
+        scheduleId: Long, occurrence: Long, trigger: Long,
+    )
+
     @Update
     abstract suspend fun updateSchedule(schedule: ScheduleEntity)
 
@@ -103,7 +114,10 @@ abstract class ScheduleDao {
         if (!reminderIsUnchanged) {
             cancelActiveReminderJobs(schedule.id)
             reminder?.let {
-                insertReminder(it.copy(scheduleId = schedule.id))
+                val updated = it.copy(scheduleId = schedule.id)
+                if (insertReminderIfAbsent(updated) == -1L) {
+                    reviveCancelledReminder(schedule.id, it.occurrenceEpochMillis, it.triggerAtEpochMillis)
+                }
             }
         }
     }
@@ -288,6 +302,7 @@ abstract class ScheduleDao {
             SELECT 1 FROM schedules
             WHERE schedules.id = reminder_outbox.schedule_id
               AND schedules.deleted_at_epoch_millis IS NULL
+              AND schedules.enabled = 1 AND schedules.completed = 0
           )
         """,
     )
@@ -298,6 +313,7 @@ abstract class ScheduleDao {
         SELECT reminder_outbox.id AS jobId,
                reminder_outbox.schedule_id AS scheduleId,
                schedules.title AS title,
+               schedules.kind AS kind,
                reminder_outbox.occurrence_epoch_millis AS occurrenceEpochMillis,
                reminder_outbox.trigger_at_epoch_millis AS triggerAtEpochMillis
         FROM reminder_outbox
@@ -306,6 +322,7 @@ abstract class ScheduleDao {
         WHERE reminder_outbox.id = :reminderId
           AND reminder_outbox.status = 'DISPATCHING'
           AND schedules.deleted_at_epoch_millis IS NULL
+          AND schedules.enabled = 1 AND schedules.completed = 0
         """,
     )
     protected abstract suspend fun getClaimedReminder(
@@ -360,4 +377,14 @@ abstract class ScheduleDao {
         """,
     )
     abstract suspend fun getReminderJobs(scheduleId: Long): List<ReminderOutboxEntity>
+
+    @Query("""SELECT * FROM schedule_exceptions WHERE cancelled = 1""")
+    abstract fun observeCancelledExceptions(): Flow<List<ScheduleExceptionEntity>>
+
+    @Query("""SELECT EXISTS(SELECT 1 FROM reminder_outbox
+        INNER JOIN schedules ON schedules.id = reminder_outbox.schedule_id
+        WHERE reminder_outbox.id = :jobId AND reminder_outbox.status IN ('DISPATCHING', 'FIRED')
+        AND schedules.deleted_at_epoch_millis IS NULL AND schedules.kind = 'ALARM'
+        AND schedules.enabled = 1 AND schedules.completed = 0)""")
+    abstract fun observeRingingJobActive(jobId: Long): Flow<Boolean>
 }

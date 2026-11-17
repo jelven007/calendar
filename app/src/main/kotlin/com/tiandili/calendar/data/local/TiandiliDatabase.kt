@@ -26,7 +26,7 @@ import com.tiandili.calendar.data.weather.WeatherDao
         WeatherCacheSegmentEntity::class,
         PendingPreferencesEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = true,
 )
 @TypeConverters(ScheduleConverters::class, WeatherConverters::class)

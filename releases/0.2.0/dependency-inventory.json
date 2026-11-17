@@ -1,0 +1,430 @@
+[
+  {
+    "coordinate": "androidx.activity:activity-compose:1.12.1",
+    "artifact": "activity-compose-1.12.1.aar"
+  },
+  {
+    "coordinate": "androidx.activity:activity-ktx:1.12.1",
+    "artifact": "activity-ktx-1.12.1.aar"
+  },
+  {
+    "coordinate": "androidx.activity:activity:1.12.1",
+    "artifact": "activity-1.12.1.aar"
+  },
+  {
+    "coordinate": "androidx.annotation:annotation-experimental:1.5.0",
+    "artifact": "annotation-experimental-1.5.0.aar"
+  },
+  {
+    "coordinate": "androidx.annotation:annotation-jvm:1.9.1",
+    "artifact": "annotation-jvm-1.9.1.jar"
+  },
+  {
+    "coordinate": "androidx.arch.core:core-common:2.2.0",
+    "artifact": "core-common-2.2.0.jar"
+  },
+  {
+    "coordinate": "androidx.arch.core:core-runtime:2.2.0",
+    "artifact": "core-runtime-2.2.0.aar"
+  },
+  {
+    "coordinate": "androidx.autofill:autofill:1.0.0",
+    "artifact": "autofill-1.0.0.aar"
+  },
+  {
+    "coordinate": "androidx.collection:collection-jvm:1.5.0",
+    "artifact": "collection-jvm-1.5.0.jar"
+  },
+  {
+    "coordinate": "androidx.collection:collection-ktx:1.5.0",
+    "artifact": "collection-ktx-1.5.0.jar"
+  },
+  {
+    "coordinate": "androidx.compose.animation:animation-android:1.9.4",
+    "artifact": "animation.aar"
+  },
+  {
+    "coordinate": "androidx.compose.animation:animation-core-android:1.9.4",
+    "artifact": "animation-core.aar"
+  },
+  {
+    "coordinate": "androidx.compose.foundation:foundation-android:1.9.4",
+    "artifact": "foundation-release.aar"
+  },
+  {
+    "coordinate": "androidx.compose.foundation:foundation-layout-android:1.9.4",
+    "artifact": "foundation-layout.aar"
+  },
+  {
+    "coordinate": "androidx.compose.material3:material3-android:1.4.0",
+    "artifact": "material3.aar"
+  },
+  {
+    "coordinate": "androidx.compose.material:material-android:1.9.4",
+    "artifact": "material.aar"
+  },
+  {
+    "coordinate": "androidx.compose.material:material-icons-core-android:1.7.8",
+    "artifact": "material-icons-core-release.aar"
+  },
+  {
+    "coordinate": "androidx.compose.material:material-icons-extended-android:1.7.8",
+    "artifact": "material-icons-extended-release.aar"
+  },
+  {
+    "coordinate": "androidx.compose.material:material-ripple-android:1.9.4",
+    "artifact": "material-ripple.aar"
+  },
+  {
+    "coordinate": "androidx.compose.runtime:runtime-android:1.9.4",
+    "artifact": "runtime.aar"
+  },
+  {
+    "coordinate": "androidx.compose.runtime:runtime-annotation-android:1.9.4",
+    "artifact": "runtime-annotation.aar"
+  },
+  {
+    "coordinate": "androidx.compose.runtime:runtime-saveable-android:1.9.4",
+    "artifact": "runtime-saveable.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-android:1.9.4",
+    "artifact": "ui-release.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-geometry-android:1.9.4",
+    "artifact": "ui-geometry.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-graphics-android:1.9.4",
+    "artifact": "ui-graphics-release.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-text-android:1.9.4",
+    "artifact": "ui-text.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-tooling-android:1.9.4",
+    "artifact": "ui-tooling.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-tooling-data-android:1.9.4",
+    "artifact": "ui-tooling-data.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-tooling-preview-android:1.9.4",
+    "artifact": "ui-tooling-preview.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-unit-android:1.9.4",
+    "artifact": "ui-unit.aar"
+  },
+  {
+    "coordinate": "androidx.compose.ui:ui-util-android:1.9.4",
+    "artifact": "ui-util.aar"
+  },
+  {
+    "coordinate": "androidx.concurrent:concurrent-futures-ktx:1.1.0",
+    "artifact": "concurrent-futures-ktx-1.1.0.jar"
+  },
+  {
+    "coordinate": "androidx.concurrent:concurrent-futures:1.1.0",
+    "artifact": "concurrent-futures-1.1.0.jar"
+  },
+  {
+    "coordinate": "androidx.core:core-ktx:1.17.0",
+    "artifact": "core-ktx-1.17.0.aar"
+  },
+  {
+    "coordinate": "androidx.core:core-remoteviews:1.1.0",
+    "artifact": "core-remoteviews-1.1.0.aar"
+  },
+  {
+    "coordinate": "androidx.core:core-viewtree:1.0.0",
+    "artifact": "core-viewtree-1.0.0.aar"
+  },
+  {
+    "coordinate": "androidx.core:core:1.17.0",
+    "artifact": "core-1.17.0.aar"
+  },
+  {
+    "coordinate": "androidx.core:core:1.17.0",
+    "artifact": "core-1.17.0.aar"
+  },
+  {
+    "coordinate": "androidx.customview:customview-poolingcontainer:1.0.0",
+    "artifact": "customview-poolingcontainer-1.0.0.aar"
+  },
+  {
+    "coordinate": "androidx.datastore:datastore-android:1.1.7",
+    "artifact": "datastore-release.aar"
+  },
+  {
+    "coordinate": "androidx.datastore:datastore-core-android:1.1.7",
+    "artifact": "datastore-core-release.aar"
+  },
+  {
+    "coordinate": "androidx.datastore:datastore-core-okio-jvm:1.1.7",
+    "artifact": "datastore-core-okio-jvm-1.1.7.jar"
+  },
+  {
+    "coordinate": "androidx.datastore:datastore-preferences-android:1.1.7",
+    "artifact": "datastore-preferences-release.aar"
+  },
+  {
+    "coordinate": "androidx.datastore:datastore-preferences-core-android:1.1.7",
+    "artifact": "datastore-preferences-core-release.aar"
+  },
+  {
+    "coordinate": "androidx.datastore:datastore-preferences-external-protobuf:1.1.7",
+    "artifact": "datastore-preferences-external-protobuf-1.1.7.jar"
+  },
+  {
+    "coordinate": "androidx.datastore:datastore-preferences-proto:1.1.7",
+    "artifact": "datastore-preferences-proto-1.1.7.jar"
+  },
+  {
+    "coordinate": "androidx.emoji2:emoji2:1.4.0",
+    "artifact": "emoji2-1.4.0.aar"
+  },
+  {
+    "coordinate": "androidx.glance:glance-appwidget-external-protobuf:1.1.1",
+    "artifact": "glance-appwidget-external-protobuf-1.1.1.jar"
+  },
+  {
+    "coordinate": "androidx.glance:glance-appwidget-proto:1.1.1",
+    "artifact": "glance-appwidget-proto-1.1.1.jar"
+  },
+  {
+    "coordinate": "androidx.glance:glance-appwidget:1.1.1",
+    "artifact": "glance-appwidget-1.1.1.aar"
+  },
+  {
+    "coordinate": "androidx.glance:glance:1.1.1",
+    "artifact": "glance-1.1.1.aar"
+  },
+  {
+    "coordinate": "androidx.graphics:graphics-path:1.0.1",
+    "artifact": "graphics-path-1.0.1.aar"
+  },
+  {
+    "coordinate": "androidx.interpolator:interpolator:1.0.0",
+    "artifact": "interpolator-1.0.0.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-common-java8:2.10.0",
+    "artifact": "lifecycle-common-java8-2.10.0.jar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-common-jvm:2.10.0",
+    "artifact": "lifecycle-common-jvm-2.10.0.jar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-livedata-core-ktx:2.10.0",
+    "artifact": "lifecycle-livedata-core-ktx-2.10.0.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-livedata-core:2.10.0",
+    "artifact": "lifecycle-livedata-core-2.10.0.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-livedata:2.10.0",
+    "artifact": "lifecycle-livedata-2.10.0.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-process:2.10.0",
+    "artifact": "lifecycle-process-2.10.0.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-runtime-android:2.10.0",
+    "artifact": "lifecycle-runtime.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-runtime-compose-android:2.10.0",
+    "artifact": "lifecycle-runtime-compose.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-runtime-ktx-android:2.10.0",
+    "artifact": "lifecycle-runtime-ktx.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-service:2.10.0",
+    "artifact": "lifecycle-service-2.10.0.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-viewmodel-android:2.10.0",
+    "artifact": "lifecycle-viewmodel.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0",
+    "artifact": "lifecycle-viewmodel-compose.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0",
+    "artifact": "lifecycle-viewmodel-ktx-2.10.0.aar"
+  },
+  {
+    "coordinate": "androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.10.0",
+    "artifact": "lifecycle-viewmodel-savedstate.aar"
+  },
+  {
+    "coordinate": "androidx.navigation:navigation-common-android:2.9.6",
+    "artifact": "navigation-common-release.aar"
+  },
+  {
+    "coordinate": "androidx.navigation:navigation-compose-android:2.9.6",
+    "artifact": "navigation-compose-release.aar"
+  },
+  {
+    "coordinate": "androidx.navigation:navigation-runtime-android:2.9.6",
+    "artifact": "navigation-runtime-release.aar"
+  },
+  {
+    "coordinate": "androidx.navigationevent:navigationevent-android:1.0.1",
+    "artifact": "navigationevent.aar"
+  },
+  {
+    "coordinate": "androidx.navigationevent:navigationevent-compose-android:1.0.1",
+    "artifact": "navigationevent-compose.aar"
+  },
+  {
+    "coordinate": "androidx.profileinstaller:profileinstaller:1.4.0",
+    "artifact": "profileinstaller-1.4.0.aar"
+  },
+  {
+    "coordinate": "androidx.room:room-common-jvm:2.8.5",
+    "artifact": "room-common-jvm-2.8.5.jar"
+  },
+  {
+    "coordinate": "androidx.room:room-ktx:2.8.5",
+    "artifact": "room-ktx-2.8.5.aar"
+  },
+  {
+    "coordinate": "androidx.room:room-runtime-android:2.8.5",
+    "artifact": "room-runtime.aar"
+  },
+  {
+    "coordinate": "androidx.savedstate:savedstate-android:1.4.0",
+    "artifact": "savedstate.aar"
+  },
+  {
+    "coordinate": "androidx.savedstate:savedstate-compose-android:1.4.0",
+    "artifact": "savedstate-compose.aar"
+  },
+  {
+    "coordinate": "androidx.savedstate:savedstate-ktx:1.4.0",
+    "artifact": "savedstate-ktx-1.4.0.aar"
+  },
+  {
+    "coordinate": "androidx.sqlite:sqlite-android:2.6.2",
+    "artifact": "sqlite.aar"
+  },
+  {
+    "coordinate": "androidx.sqlite:sqlite-framework-android:2.6.2",
+    "artifact": "sqlite-framework.aar"
+  },
+  {
+    "coordinate": "androidx.startup:startup-runtime:1.1.1",
+    "artifact": "startup-runtime-1.1.1.aar"
+  },
+  {
+    "coordinate": "androidx.tracing:tracing-ktx:1.2.0",
+    "artifact": "tracing-ktx-1.2.0.aar"
+  },
+  {
+    "coordinate": "androidx.tracing:tracing:1.2.0",
+    "artifact": "tracing-1.2.0.aar"
+  },
+  {
+    "coordinate": "androidx.versionedparcelable:versionedparcelable:1.1.1",
+    "artifact": "versionedparcelable-1.1.1.aar"
+  },
+  {
+    "coordinate": "androidx.work:work-runtime-ktx:2.10.1",
+    "artifact": "work-runtime-ktx-2.10.1.aar"
+  },
+  {
+    "coordinate": "androidx.work:work-runtime:2.10.1",
+    "artifact": "work-runtime-2.10.1.aar"
+  },
+  {
+    "coordinate": "cn.6tail:lunar:1.7.7",
+    "artifact": "lunar-1.7.7.jar"
+  },
+  {
+    "coordinate": "com.google.guava:listenablefuture:1.0",
+    "artifact": "listenablefuture-1.0.jar"
+  },
+  {
+    "coordinate": "com.kizitonwose.calendar:compose:2.8.0",
+    "artifact": "compose-2.8.0.aar"
+  },
+  {
+    "coordinate": "com.kizitonwose.calendar:core:2.8.0",
+    "artifact": "core-2.8.0.jar"
+  },
+  {
+    "coordinate": "com.kizitonwose.calendar:data:2.8.0",
+    "artifact": "data-2.8.0.jar"
+  },
+  {
+    "coordinate": "com.squareup.moshi:moshi:1.15.2",
+    "artifact": "moshi-1.15.2.jar"
+  },
+  {
+    "coordinate": "com.squareup.okhttp3:okhttp:4.12.0",
+    "artifact": "okhttp-4.12.0.jar"
+  },
+  {
+    "coordinate": "com.squareup.okio:okio-jvm:3.7.0",
+    "artifact": "okio-jvm-3.7.0.jar"
+  },
+  {
+    "coordinate": "com.squareup.retrofit2:converter-moshi:2.11.0",
+    "artifact": "converter-moshi-2.11.0.jar"
+  },
+  {
+    "coordinate": "com.squareup.retrofit2:retrofit:2.11.0",
+    "artifact": "retrofit-2.11.0.jar"
+  },
+  {
+    "coordinate": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.9.22",
+    "artifact": "kotlin-android-extensions-runtime-1.9.22.jar"
+  },
+  {
+    "coordinate": "org.jetbrains.kotlin:kotlin-parcelize-runtime:1.9.22",
+    "artifact": "kotlin-parcelize-runtime-1.9.22.jar"
+  },
+  {
+    "coordinate": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.0",
+    "artifact": "kotlin-stdlib-jdk7-2.2.0.jar"
+  },
+  {
+    "coordinate": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0",
+    "artifact": "kotlin-stdlib-jdk8-2.2.0.jar"
+  },
+  {
+    "coordinate": "org.jetbrains.kotlin:kotlin-stdlib:2.3.0",
+    "artifact": "kotlin-stdlib-2.3.0.jar"
+  },
+  {
+    "coordinate": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0",
+    "artifact": "kotlinx-coroutines-android-1.9.0.jar"
+  },
+  {
+    "coordinate": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0",
+    "artifact": "kotlinx-coroutines-core-jvm-1.9.0.jar"
+  },
+  {
+    "coordinate": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.7.3",
+    "artifact": "kotlinx-serialization-core-jvm-1.7.3.jar"
+  },
+  {
+    "coordinate": "org.jetbrains:annotations:23.0.0",
+    "artifact": "annotations-23.0.0.jar"
+  },
+  {
+    "coordinate": "org.jspecify:jspecify:1.0.0",
+    "artifact": "jspecify-1.0.0.jar"
+  }
+]

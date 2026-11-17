@@ -39,6 +39,7 @@ data class CurrentWeather(
     val weatherCode: Int,
     val windSpeedKph: Double,
     val isDay: Boolean,
+    val windDirectionDegrees: Double? = null,
 )
 
 data class HourlyForecast(
@@ -56,7 +57,10 @@ data class AirQuality(
     val pm10MicrogramsPerCubicMeter: Double,
     val ozoneMicrogramsPerCubicMeter: Double,
     val nitrogenDioxideMicrogramsPerCubicMeter: Double,
+    val hourlyUsAqi: List<HourlyAirQuality> = emptyList(),
 )
+
+data class HourlyAirQuality(val time: ZonedDateTime, val usAqi: Int)
 
 data class ForecastBundle(
     val current: CurrentWeather,

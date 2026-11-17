@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.local.TiandiliDatabaseMigrationTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:15.936Z" hostname="J6P0GGV20P" time="0.186">
+  <properties/>
+  <testcase name="migration three to four preserves legacy ids and backfills reminder offset" classname="com.tiandili.calendar.data.local.TiandiliDatabaseMigrationTest" time="0.085"/>
+  <testcase name="migration one to two preserves schedules and creates weather cache" classname="com.tiandili.calendar.data.local.TiandiliDatabaseMigrationTest" time="0.03"/>
+  <testcase name="full migration chain opens schema one as schema four" classname="com.tiandili.calendar.data.local.TiandiliDatabaseMigrationTest" time="0.031"/>
+  <testcase name="migration two to three preserves cities and adds recoverable settings journal" classname="com.tiandili.calendar.data.local.TiandiliDatabaseMigrationTest" time="0.04"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

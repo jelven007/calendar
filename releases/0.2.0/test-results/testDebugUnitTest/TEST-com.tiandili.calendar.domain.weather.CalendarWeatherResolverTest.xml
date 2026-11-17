@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.domain.weather.CalendarWeatherResolverTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.654Z" hostname="J6P0GGV20P" time="0.001">
+  <properties/>
+  <testcase name="weather window includes exactly fifteen city local dates" classname="com.tiandili.calendar.domain.weather.CalendarWeatherResolverTest" time="0.001"/>
+  <testcase name="weather window starts on the city local date" classname="com.tiandili.calendar.domain.weather.CalendarWeatherResolverTest" time="0.0"/>
+  <testcase name="missing daily response is not synthesized" classname="com.tiandili.calendar.domain.weather.CalendarWeatherResolverTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

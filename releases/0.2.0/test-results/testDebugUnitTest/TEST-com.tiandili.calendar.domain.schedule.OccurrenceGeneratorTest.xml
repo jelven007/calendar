@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.640Z" hostname="J6P0GGV20P" time="0.008">
+  <properties/>
+  <testcase name="lunar day thirty clamps to a short month and leap month falls back to regular month" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.004"/>
+  <testcase name="monthly recurrence respects its interval" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.0"/>
+  <testcase name="occurrence count applies before window filtering" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.001"/>
+  <testcase name="recurrence stops after its occurrence count" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.0"/>
+  <testcase name="recurrence interval must be positive" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.001"/>
+  <testcase name="recurrence count must be positive when present" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.0"/>
+  <testcase name="yearly February 29 recurrence clamps to February 28 in common years" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.0"/>
+  <testcase name="weekly recurrence emits only selected weekdays" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.0"/>
+  <testcase name="recurrence includes its until date and stops afterward" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.0"/>
+  <testcase name="yearly lunar new year follows the lunar month day instead of Gregorian anchor" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.001"/>
+  <testcase name="monthly recurrence clamps the anchor day to the end of short months" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.0"/>
+  <testcase name="daily recurrence respects its interval" classname="com.tiandili.calendar.domain.schedule.OccurrenceGeneratorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

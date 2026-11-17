@@ -12,6 +12,7 @@ import com.tiandili.calendar.data.settings.UserPreferences
 import com.tiandili.calendar.data.local.TiandiliDatabase
 import com.tiandili.calendar.data.local.MIGRATION_1_2
 import com.tiandili.calendar.data.local.MIGRATION_2_3
+import com.tiandili.calendar.data.local.MIGRATION_3_4
 import com.tiandili.calendar.data.reminder.ReminderSchedulingScheduleRepository
 import com.tiandili.calendar.data.reminder.RoomReminderDeliveryStore
 import com.tiandili.calendar.data.reminder.RoomReminderOutbox
@@ -138,7 +139,7 @@ class TiandiliApplication : Application(), ReminderRuntimeOwner, BackgroundTasks
             applicationContext,
             TiandiliDatabase::class.java,
             "tiandili.db",
-        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
             .build()
     }
 
@@ -146,6 +147,7 @@ class TiandiliApplication : Application(), ReminderRuntimeOwner, BackgroundTasks
         RoomScheduleRepository(
             dao = database.scheduleDao(),
             clock = clock,
+            deviceZoneId = { ZoneId.systemDefault() },
         )
     }
 
@@ -174,7 +176,11 @@ class TiandiliApplication : Application(), ReminderRuntimeOwner, BackgroundTasks
                 coordinator.reconcile()
                 dao.purgeCancelledSchedules()
             },
-            prepareForRecovery = dao::prepareReminderJobsForRecovery,
+            prepareForRecovery = {
+                RoomScheduleRepository(dao, Clock.systemDefaultZone(),
+                    deviceZoneId = { ZoneId.systemDefault() }).replanAlarmTimeZones()
+                dao.prepareReminderJobsForRecovery()
+            },
         )
     }
 

@@ -2,6 +2,7 @@ package com.tiandili.calendar.domain.reminder
 
 import java.time.Clock
 import kotlinx.coroutines.CancellationException
+import com.tiandili.calendar.domain.schedule.ScheduleKind
 
 data class ReminderDelivery(
     val jobId: Long,
@@ -9,6 +10,7 @@ data class ReminderDelivery(
     val title: String,
     val occurrenceEpochMillis: Long,
     val triggerAtEpochMillis: Long,
+    val kind: ScheduleKind = ScheduleKind.SCHEDULE,
 )
 
 data class ReminderNotification(
@@ -17,6 +19,7 @@ data class ReminderNotification(
     val title: String,
     val occurrenceEpochMillis: Long,
     val missed: Boolean,
+    val kind: ScheduleKind = ScheduleKind.SCHEDULE,
 )
 
 interface ReminderDeliveryStore {
@@ -48,7 +51,9 @@ class ReminderDispatcher(
         val delivery = store.claim(jobId) ?: return
         try {
             val ageMillis = clock.millis() - delivery.triggerAtEpochMillis
-            if (ageMillis > MISSED_REMINDER_WINDOW_MILLIS) {
+            val missedWindow = if (delivery.kind == ScheduleKind.ALARM) 5 * 60 * 1000L
+                else MISSED_REMINDER_WINDOW_MILLIS
+            if (ageMillis > missedWindow) {
                 store.markSkipped(jobId)
                 return
             }
@@ -59,6 +64,7 @@ class ReminderDispatcher(
                     title = delivery.title,
                     occurrenceEpochMillis = delivery.occurrenceEpochMillis,
                     missed = ageMillis > 0,
+                    kind = delivery.kind,
                 ),
             )
             if (posted) {

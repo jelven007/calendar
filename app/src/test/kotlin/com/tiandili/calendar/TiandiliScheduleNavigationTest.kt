@@ -6,6 +6,9 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performScrollTo
+import com.google.common.truth.Truth.assertThat
 import com.tiandili.calendar.data.almanac.LunarJavaAlmanacEngine
 import com.tiandili.calendar.feature.calendar.CalendarViewModel
 import com.tiandili.calendar.domain.schedule.Schedule
@@ -29,6 +32,21 @@ class TiandiliScheduleNavigationTest {
     @get:Rule
     val composeRule = createComposeRule()
 
+    @Test fun `cancelled instance has no label and almanac follows selected day`() {
+        val zone = ZoneId.of("Asia/Shanghai")
+        val clock = Clock.fixed(Instant.parse("2026-11-18T01:00:00Z"), zone)
+        val vm = CalendarViewModel(clock, zone, DayOfWeek.SUNDAY, LunarJavaAlmanacEngine())
+        composeRule.setContent { TiandiliTheme { TiandiliApp(vm, clock = clock,
+            schedules = listOf(Schedule(id = 1, title = "已取消实例", timing = ScheduleTiming.AllDay(
+                LocalDate.of(2026, 11, 18), LocalDate.of(2026, 11, 19)))),
+            cancelledOccurrences = mapOf(1L to setOf(LocalDate.of(2026, 11, 18)))) } }
+        composeRule.onNode(hasContentDescription("有日程", substring = true)).assertDoesNotExist()
+        composeRule.onNode(hasContentDescription("2026年11月19日", substring = true)).performScrollTo().performClick()
+        composeRule.onNodeWithText("黄历").performClick()
+        composeRule.onNodeWithText("2026-11-19 ⌄").assertIsDisplayed()
+        assertThat(vm.uiState.value.selectedAlmanac.date).isEqualTo(LocalDate.of(2026, 11, 19))
+    }
+
     @Test
     fun `schedule destination renders the provided schedule feature`() {
         val zoneId = ZoneId.of("Asia/Shanghai")
@@ -47,6 +65,10 @@ class TiandiliScheduleNavigationTest {
             }
         }
 
+        listOf("日历", "黄历", "天气", "发现", "我的").forEach {
+            composeRule.onNodeWithText(it).assertIsDisplayed()
+        }
+        composeRule.onNodeWithText("我的").performClick()
         composeRule.onNodeWithText("日程").performClick()
 
         composeRule.onNodeWithText("日程功能已连接").assertIsDisplayed()
@@ -82,5 +104,6 @@ class TiandiliScheduleNavigationTest {
         composeRule.onNode(
             hasContentDescription("有日程", substring = true),
         ).assertIsDisplayed()
+        composeRule.onNodeWithText("有标记的日程", substring = true).assertIsDisplayed()
     }
 }

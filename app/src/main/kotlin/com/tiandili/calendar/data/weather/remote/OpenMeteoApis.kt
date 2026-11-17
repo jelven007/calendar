@@ -23,7 +23,7 @@ interface OpenMeteoForecastApi {
         @Query("hourly") hourly: String = FORECAST_HOURLY_FIELDS,
         @Query("daily") daily: String = FORECAST_DAILY_FIELDS,
         @Query("timeformat") timeFormat: String = "unixtime",
-        @Query("forecast_days") forecastDays: Int = 7,
+        @Query("forecast_days") forecastDays: Int = 15,
     ): ForecastResponseDto
 }
 
@@ -34,13 +34,15 @@ interface OpenMeteoAirQualityApi {
         @Query("longitude") longitude: Double,
         @Query("timezone") timezone: String,
         @Query("current") current: String = AIR_QUALITY_CURRENT_FIELDS,
+        @Query("hourly") hourly: String = "us_aqi",
+        @Query("forecast_days") forecastDays: Int = 5,
         @Query("timeformat") timeFormat: String = "unixtime",
     ): AirQualityResponseDto
 }
 
 private const val FORECAST_CURRENT_FIELDS =
     "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation," +
-        "weather_code,wind_speed_10m,is_day"
+        "weather_code,wind_speed_10m,wind_direction_10m,is_day"
 private const val FORECAST_HOURLY_FIELDS =
     "temperature_2m,precipitation_probability,weather_code,wind_speed_10m"
 private const val FORECAST_DAILY_FIELDS =

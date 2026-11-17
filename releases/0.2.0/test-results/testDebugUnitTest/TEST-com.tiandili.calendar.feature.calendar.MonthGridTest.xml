@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.calendar.MonthGridTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:18.047Z" hostname="J6P0GGV20P" time="0.0">
+  <properties/>
+  <testcase name="rejects displayed months before the supported range" classname="com.tiandili.calendar.feature.calendar.MonthGridTest" time="0.0"/>
+  <testcase name="grid supports exact four and six week months" classname="com.tiandili.calendar.feature.calendar.MonthGridTest" time="0.0"/>
+  <testcase name="january 2025 Monday-first grid uses only five rows" classname="com.tiandili.calendar.feature.calendar.MonthGridTest" time="0.0"/>
+  <testcase name="rejects displayed months after the supported range" classname="com.tiandili.calendar.feature.calendar.MonthGridTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

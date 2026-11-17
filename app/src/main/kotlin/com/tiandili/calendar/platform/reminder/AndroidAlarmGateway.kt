@@ -10,6 +10,7 @@ import com.tiandili.calendar.domain.reminder.AlarmGateway
 import com.tiandili.calendar.domain.reminder.AlarmPrecision
 import com.tiandili.calendar.domain.reminder.ReminderAlarm
 import java.time.Clock
+import com.tiandili.calendar.platform.alarm.AlarmSoundService
 
 const val EXTRA_REMINDER_JOB_ID = "com.tiandili.calendar.extra.REMINDER_JOB_ID"
 const val INEXACT_ALARM_WINDOW_MILLIS = 10 * 60 * 1000L
@@ -49,6 +50,9 @@ class AndroidAlarmGateway(
     }
 
     override fun cancel(jobId: Long) {
+        if (AlarmSoundService.activeJobId == jobId) {
+            applicationContext.startService(AlarmSoundService.stopIntent(applicationContext, jobId))
+        }
         alarmManager.cancel(pendingIntent(jobId))
         applicationContext.getSystemService(android.app.NotificationManager::class.java)
             ?.cancel(jobId.hashCode())

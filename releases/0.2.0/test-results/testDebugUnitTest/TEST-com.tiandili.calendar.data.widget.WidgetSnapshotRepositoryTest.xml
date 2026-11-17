@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.widget.WidgetSnapshotRepositoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:17.417Z" hostname="J6P0GGV20P" time="0.185">
+  <properties/>
+  <testcase name="rebuild reads persisted recurrence exceptions and privacy preferences" classname="com.tiandili.calendar.data.widget.WidgetSnapshotRepositoryTest" time="0.146"/>
+  <testcase name="rebuild excludes soft deleted schedules immediately" classname="com.tiandili.calendar.data.widget.WidgetSnapshotRepositoryTest" time="0.038"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[System.logW: A resource failed to call close. 
+]]></system-err>
+</testsuite>

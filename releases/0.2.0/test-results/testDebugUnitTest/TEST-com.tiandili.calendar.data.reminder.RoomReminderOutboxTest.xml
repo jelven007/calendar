@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.data.reminder.RoomReminderOutboxTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:16.400Z" hostname="J6P0GGV20P" time="0.053">
+  <properties/>
+  <testcase name="pending and cancel pending rows map to coordinator commands" classname="com.tiandili.calendar.data.reminder.RoomReminderOutboxTest" time="0.018"/>
+  <testcase name="gateway failure increments attempt count and keeps command pending" classname="com.tiandili.calendar.data.reminder.RoomReminderOutboxTest" time="0.016"/>
+  <testcase name="confirmed commands update rows with compare and set" classname="com.tiandili.calendar.data.reminder.RoomReminderOutboxTest" time="0.019"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

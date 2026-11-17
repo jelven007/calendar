@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tiandili.calendar.feature.mine.RecordPresentationTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-17T18:14:18.400Z" hostname="J6P0GGV20P" time="0.004">
+  <properties/>
+  <testcase name="next birthday uses lunar recurrence and ignores cancelled starts" classname="com.tiandili.calendar.feature.mine.RecordPresentationTest" time="0.004"/>
+  <testcase name="search matches title and body and keeps completed records" classname="com.tiandili.calendar.feature.mine.RecordPresentationTest" time="0.0"/>
+  <testcase name="upcoming schedule skips passed time in record timezone" classname="com.tiandili.calendar.feature.mine.RecordPresentationTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

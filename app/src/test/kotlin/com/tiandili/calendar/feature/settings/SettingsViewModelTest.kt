@@ -88,6 +88,24 @@ class SettingsViewModelTest {
         assertThat(vm.uiState.value.message).isEqualTo("备份已保存")
     }
 
+    @Test
+    fun `accent and nickname persist alongside existing settings`() = runTest(dispatcher) {
+        val vm = viewModel()
+        vm.setWeekStart(java.time.DayOfWeek.MONDAY)
+        vm.uiState.first { !it.busy }
+        vm.setAccent(com.tiandili.calendar.data.settings.CalendarAccent.BLUE)
+        vm.uiState.first { !it.busy }
+        vm.setNickname("小历")
+        vm.uiState.first { !it.busy }
+        assertThat(vm.preferences.first { it.nickname == "小历" }.accent)
+            .isEqualTo(com.tiandili.calendar.data.settings.CalendarAccent.BLUE)
+        assertThat(vm.preferences.value.firstDayOfWeek).isEqualTo(java.time.DayOfWeek.MONDAY)
+        vm.setNickname(" ")
+        vm.uiState.first { !it.busy }
+        assertThat(vm.preferences.value.nickname).isEqualTo("小历")
+        assertThat(vm.uiState.value.message).contains("昵称")
+    }
+
     private fun kotlinx.coroutines.test.TestScope.viewModel(): SettingsViewModel {
         val settings = DataStoreSettingsRepository(PreferenceDataStoreFactory.create(
             scope = backgroundScope, produceFile = { java.io.File(folder.root, "settings.preferences_pb") },

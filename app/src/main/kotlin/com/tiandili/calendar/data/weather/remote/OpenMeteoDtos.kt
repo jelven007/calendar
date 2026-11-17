@@ -45,6 +45,8 @@ data class CurrentWeatherDto(
     val windSpeed: Double,
     @param:Json(name = "is_day")
     val isDay: Int,
+    @param:Json(name = "wind_direction_10m")
+    val windDirection: Double? = null,
 )
 
 @JsonClass(generateAdapter = true)
@@ -81,6 +83,13 @@ data class AirQualityResponseDto(
     @param:Json(name = "utc_offset_seconds")
     val utcOffsetSeconds: Int,
     val current: CurrentAirQualityDto,
+    val hourly: HourlyAirQualityDto? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class HourlyAirQualityDto(
+    val time: List<Long>,
+    @param:Json(name = "us_aqi") val usAqi: List<Int?>,
 )
 
 @JsonClass(generateAdapter = true)

@@ -9,6 +9,40 @@ import org.junit.Test
 class ScheduleValidatorTest {
 
     @Test
+    fun `typed records validate bounded content checklist and system media references`() {
+        val record = Schedule(title = "读书", timing = validTimedSchedule(),
+            kind = ScheduleKind.TODO, checklist = listOf(ChecklistItem("第一章")),
+            reminderMinutesBefore = 0)
+        assertThat(record.calendarEligible).isTrue()
+        assertThat(record.copy(completed = true).calendarEligible).isFalse()
+        assertThat(record.copy(enabled = false).occurrenceDates(
+            LocalDate.of(2025, 1, 1)..LocalDate.of(2025, 1, 2))).isEmpty()
+        assertThat(record.checklist.single().completed).isFalse()
+        listOf(
+            record.copy(mediaUris = listOf("file:///private/a")),
+            record.copy(mediaUris = listOf("content:///no-authority")),
+            record.copy(mediaUris = List(10) { "content://media/$it" }),
+            record.copy(checklist = listOf(ChecklistItem(""))),
+            record.copy(checklist = List(51) { ChecklistItem("读书") }),
+        ).forEach { assertThat(ScheduleValidator.validate(it)).isNotEmpty() }
+        val note = record.copy(kind = ScheduleKind.NOTE, note = "记".repeat(20000),
+            mediaUris = listOf("content://media/external/images/1"))
+        assertThat(ScheduleValidator.validate(note)).isEmpty()
+        assertThat(ScheduleValidator.validate(note.copy(note = "记".repeat(20001)))).isNotEmpty()
+    }
+
+    @Test
+    fun `lunar recurrence requires paired valid lunar month and day on yearly rules`() {
+        listOf(
+            { RecurrenceRule(RecurrenceFrequency.YEARLY, lunarMonth = 1) },
+            { RecurrenceRule(RecurrenceFrequency.YEARLY, lunarMonth = 0, lunarDay = 1) },
+            { RecurrenceRule(RecurrenceFrequency.YEARLY, lunarMonth = 1, lunarDay = 31) },
+            { RecurrenceRule(RecurrenceFrequency.DAILY, lunarMonth = 1, lunarDay = 1) },
+        ).forEach { assertThat(runCatching(it).exceptionOrNull())
+            .isInstanceOf(IllegalArgumentException::class.java) }
+    }
+
+    @Test
     fun `blank title is rejected on the title field`() {
         val errors = ScheduleValidator.validate(
             Schedule(

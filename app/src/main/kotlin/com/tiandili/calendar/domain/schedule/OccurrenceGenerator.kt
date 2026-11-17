@@ -46,7 +46,9 @@ object OccurrenceGenerator {
             RecurrenceFrequency.DAILY -> generateDaily(startDate, rule.interval, generationWindow)
             RecurrenceFrequency.WEEKLY -> generateWeekly(startDate, rule, generationWindow)
             RecurrenceFrequency.MONTHLY -> generateMonthly(startDate, rule.interval, generationWindow)
-            RecurrenceFrequency.YEARLY -> generateYearly(startDate, rule.interval, generationWindow)
+            RecurrenceFrequency.YEARLY -> if (rule.lunarMonth != null) {
+                generateLunarYearly(startDate, rule, generationWindow)
+            } else generateYearly(startDate, rule.interval, generationWindow)
         }
         val limited = rule.count?.let(occurrences::take) ?: occurrences
         return limited.filter { it in window }
@@ -129,6 +131,31 @@ object OccurrenceGenerator {
             year += interval
         }
 
+        return occurrences
+    }
+
+    private fun generateLunarYearly(
+        startDate: LocalDate,
+        rule: RecurrenceRule,
+        window: ClosedRange<LocalDate>,
+    ): List<LocalDate> {
+        require(startDate.year in 1901..2099) { "农历支持 1901–2099 年" }
+        val startYear = com.nlf.calendar.Solar.fromYmd(
+            startDate.year, startDate.monthValue, startDate.dayOfMonth).lunar.year
+        val occurrences = mutableListOf<LocalDate>()
+        var year = startYear
+        while (year <= minOf(2099, window.endInclusive.year)) {
+            val requestedMonth = requireNotNull(rule.lunarMonth)
+            val month = com.nlf.calendar.LunarMonth.fromYm(year, requestedMonth)
+                ?: com.nlf.calendar.LunarMonth.fromYm(year, kotlin.math.abs(requestedMonth))
+            if (month != null) {
+                val solar = com.nlf.calendar.Lunar.fromYmd(
+                    year, month.month, minOf(requireNotNull(rule.lunarDay), month.dayCount)).solar
+                val date = LocalDate.of(solar.year, solar.month, solar.day)
+                if (date >= startDate && date in window && date.year in 1901..2099) occurrences += date
+            }
+            year += rule.interval
+        }
         return occurrences
     }
 
